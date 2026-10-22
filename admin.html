@@ -3,58 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - SHOP BITHACOM</title>
+    <title>Dashboard - SHOP BITHACOM</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <header>
-        <div class="logo">SHOP<span> BITHACOM</span></div>
-        <nav>
-            <a href="index.html">Accueil</a>
-            <a href="produits.html">Produits</a>
-            <a href="admin.html" style="color: #fbbf24;">Admin</a>
-        </nav>
-    </header>
-
-    <div id="login-section" class="admin-container">
-        <h2>🔒 Accès Gérant</h2>
-        <form class="admin-form" id="login-form">
-            <input type="password" id="admin-password" placeholder="Entrez le mot de passe" required>
-            <button type="submit">Se connecter</button>
-        </form>
-        <p style="text-align:center; margin-top:15px; font-size:12px; color:#666;">(Mot de passe par défaut : bitha2025)</p>
+    <div id="login-screen" style="display:flex; justify-content:center; align-items:center; height:100vh; background:#f3f4f6;">
+        <div class="admin-panel" style="width:100%; max-width:400px; text-align:center;">
+            <h2 style="border:none;">🔒 Accès Gérant</h2>
+            <form id="login-form" style="display:flex; flex-direction:column; gap:15px; margin-top:20px;">
+                <input type="password" id="admin-password" placeholder="Mot de passe" style="padding:12px; border:1px solid #ccc; border-radius:8px;" required>
+                <button type="submit" style="padding:12px; background:#1e3a8a; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">Se connecter</button>
+            </form>
+        </div>
     </div>
 
-    <div id="admin-section" class="admin-container" style="display:none;">
-        <h2>📦 Gestion des Produits</h2>
-        <form class="admin-form" id="product-form">
-            <input type="text" id="p-name" placeholder="Nom du produit" required>
-            <input type="text" id="p-price" placeholder="Prix (ex: 150 000 FCFA)" required>
-            <input type="text" id="p-desc" placeholder="Description courte" required>
-            <input type="url" id="p-img" placeholder="Lien de l'image (URL)" required>
-            <button type="submit">➕ Ajouter le produit</button>
-        </form>
+    <div class="admin-layout" id="admin-dashboard" style="display:none;">
+        <aside class="admin-sidebar">
+            <div class="brand">SHOP <span>BITHACOM</span></div>
+            <a href="#" class="active">📊 Tableau de bord</a>
+            <a href="index.html" target="_blank">🌐 Voir le site</a>
+            <a href="#" onclick="logout()">🚪 Déconnexion</a>
+        </aside>
 
-        <table class="admin-table">
-            <thead>
-                <tr>
-                    <th>Image</th>
-                    <th>Nom</th>
-                    <th>Prix</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody id="product-list">
-                <!-- Les produits s'afficheront ici -->
-            </tbody>
-        </table>
-        
-        <button onclick="generateCode()" style="margin-top:20px; width:100%; padding:15px; background:#1e3a8a; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">📋 Générer le code pour le site</button>
-        
-        <div id="code-output" style="display:none; margin-top:20px;">
-            <p>Copie ce code et remplace la grille dans <code>produits.html</code> :</p>
-            <textarea id="code-text" style="width:100%; height:200px; font-family:monospace; padding:10px;"></textarea>
-        </div>
+        <main class="admin-main">
+            <h1>Tableau de bord</h1>
+            
+            <div class="admin-stats">
+                <div class="stat-card">
+                    <h3>Total Produits</h3>
+                    <p id="stat-total">0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Dernière mise à jour</h3>
+                    <p style="font-size:16px;" id="stat-date">Aujourd'hui</p>
+                </div>
+            </div>
+
+            <div class="admin-panel">
+                <h2>➕ Ajouter un nouveau produit</h2>
+                <form class="admin-form" id="product-form">
+                    <input type="text" id="p-name" placeholder="Nom du produit (ex: iPhone 15)" required>
+                    <input type="text" id="p-price" placeholder="Prix (ex: 1 200 000 FCFA)" required>
+                    <input type="text" id="p-img" placeholder="Lien de l'image (via postimages.org)" class="full-width" required>
+                    <textarea id="p-desc" placeholder="Description courte" class="full-width" rows="2" required></textarea>
+                    <button type="submit" class="full-width">Enregistrer le produit</button>
+                </form>
+            </div>
+
+            <div class="admin-panel">
+                <h2>📦 Liste des produits</h2>
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Nom</th>
+                            <th>Prix</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="product-list"></tbody>
+                </table>
+                <br>
+                <button onclick="exportData()" class="btn-download">💾 1. Sauvegarder (Télécharger le fichier)</button>
+                <p style="font-size:12px; color:#666; margin-top:10px;">Télécharge ce fichier `products.json`, puis dépose-le sur ton GitHub dans le dossier principal pour que le site se mette à jour.</p>
+            </div>
+        </main>
     </div>
 
     <script src="js/admin.js"></script>
