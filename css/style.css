@@ -156,3 +156,16 @@ footer p { margin: 6px 0; }
 
 .info-contact { background: #f3f4f6; padding: 20px; border-radius: 10px; margin-top: 30px; text-align: center; }
 .info-contact p { margin: 5px 0; font-weight: 500; }
+
+/* ===== ADMIN ===== */
+.admin-container { max-width: 800px; margin: 40px auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+.admin-container h2 { color: #1e3a8a; margin-bottom: 20px; text-align: center; }
+.admin-form { display: flex; flex-direction: column; gap: 15px; }
+.admin-form input, .admin-form textarea, .admin-form select { padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-family: inherit; }
+.admin-form button { background: #10b981; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+.admin-form button:hover { background: #059669; }
+
+.admin-table { width: 100%; border-collapse: collapse; margin-top: 30px; }
+.admin-table th, .admin-table td { border: 1px solid #e5e7eb; padding: 10px; text-align: left; }
+.admin-table th { background: #f3f4f6; color: #1e3a8a; }
+.btn-danger { background: #ef4444; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; }
