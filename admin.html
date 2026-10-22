@@ -43,7 +43,16 @@
                 <h2>➕ Ajouter un nouveau produit</h2>
                 <form class="admin-form" id="product-form">
                     <input type="text" id="p-name" placeholder="Nom du produit (ex: iPhone 15)" required>
-                    <input type="text" id="p-price" placeholder="Prix (ex: 1 200 000 FCFA)" required>
+                    
+                    <!-- NOUVEAU : Prix + Devise -->
+                    <div style="display:flex; gap:10px;">
+                        <input type="text" id="p-price" placeholder="Prix (ex: 1200)" style="flex:2;" required>
+                        <select id="p-currency" style="flex:1; padding:12px; border:1px solid #cbd5e1; border-radius:8px; font-family:inherit;">
+                            <option value="USD">$ USD</option>
+                            <option value="FC">FC</option>
+                        </select>
+                    </div>
+
                     <input type="text" id="p-img" placeholder="Lien de l'image (via postimages.org)" class="full-width" required>
                     <textarea id="p-desc" placeholder="Description courte" class="full-width" rows="2" required></textarea>
                     <button type="submit" class="full-width">Enregistrer le produit</button>

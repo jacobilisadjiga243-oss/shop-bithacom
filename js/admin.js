@@ -1,10 +1,8 @@
 ﻿const PASSWORD = "bitha2025";
 
-// Gestion de la connexion
 document.getElementById("login-form").addEventListener("submit", (e) => {
     e.preventDefault();
-    const pass = document.getElementById("admin-password").value;
-    if (pass === PASSWORD) {
+    if (document.getElementById("admin-password").value === PASSWORD) {
         document.getElementById("login-screen").style.display = "none";
         document.getElementById("admin-dashboard").style.display = "flex";
         loadProducts();
@@ -13,11 +11,8 @@ document.getElementById("login-form").addEventListener("submit", (e) => {
     }
 });
 
-function logout() {
-    location.reload();
-}
+function logout() { location.reload(); }
 
-// Gestion des produits
 let products = JSON.parse(localStorage.getItem("bitha_products")) || [];
 
 document.getElementById("product-form").addEventListener("submit", (e) => {
@@ -25,6 +20,7 @@ document.getElementById("product-form").addEventListener("submit", (e) => {
     const newProduct = {
         name: document.getElementById("p-name").value,
         price: document.getElementById("p-price").value,
+        currency: document.getElementById("p-currency").value, // NOUVEAU
         desc: document.getElementById("p-desc").value,
         img: document.getElementById("p-img").value
     };
@@ -41,11 +37,14 @@ function loadProducts() {
     const list = document.getElementById("product-list");
     list.innerHTML = "";
     products.forEach((p, index) => {
+        // On affiche la devise ($ ou FC)
+        const priceDisplay = p.currency === 'USD' ? `$ ${p.price}` : `${p.price} FC`;
+        
         list.innerHTML += `
             <tr>
-                <td><img src="${p.img}" alt="${p.name}"></td>
+                <td><img src="${p.img}" style="width:50px; height:50px; object-fit:cover; border-radius:5px;"></td>
                 <td><strong>${p.name}</strong><br><small style="color:#666">${p.desc}</small></td>
-                <td style="color:#f59e0b; font-weight:bold;">${p.price}</td>
+                <td style="color:#f59e0b; font-weight:bold;">${priceDisplay}</td>
                 <td><button class="btn-danger" onclick="deleteProduct(${index})">Supprimer</button></td>
             </tr>
         `;
@@ -60,7 +59,6 @@ function deleteProduct(index) {
     }
 }
 
-// Téléchargement du fichier JSON (Sans toucher au code HTML)
 function exportData() {
     if (products.length === 0) {
         alert("Aucun produit à sauvegarder !");
