@@ -1,24 +1,22 @@
-﻿fetch('products.json')
-    .then(response => {
-        if (!response.ok) throw new Error('Fichier JSON non trouvé');
-        return response.json();
-    })
-    .then(data => {
+﻿fetch('/api')
+    .then(response => response.json())
+    .then(products => {
         const grid = document.querySelector('.products-grid');
         grid.innerHTML = "";
         
-        data.forEach(p => {
-            // Gestion de la devise
-            const priceDisplay = p.currency === 'USD' ? `$ ${p.price}` : `${p.price} FC`;
-            const badgeClass = p.currency === 'USD' ? 'currency-usd' : 'currency-fc';
-            const badgeText = p.currency === 'USD' ? '$' : 'FC';
+        if (products.length === 0) {
+            grid.innerHTML = "<p style='text-align:center; grid-column: 1/-1;'>Aucun produit pour le moment.</p>";
+            return;
+        }
 
+        products.forEach(p => {
+            const priceDisplay = p.devise === 'USD' ? `$ ${p.prix}` : `${p.prix} FC`;
             grid.innerHTML += `
                 <div class="product-card">
-                    <img src="${p.img}" alt="${p.name}">
+                    <img src="${p.image_url}" alt="${p.nom}">
                     <div class="product-info">
-                        <h3>${p.name}</h3>
-                        <p class="desc">${p.desc}</p>
+                        <h3>${p.nom}</h3>
+                        <p class="desc">${p.description}</p>
                         <p class="price">${priceDisplay}</p>
                         <button class="btn-buy">Commander</button>
                     </div>
@@ -36,4 +34,4 @@
             });
         });
     })
-    .catch(err => console.log("Mode local : utilisation des produits par défaut.", err));
+    .catch(err => console.log("Erreur:", err));
