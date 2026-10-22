@@ -241,3 +241,52 @@ footer p { margin: 6px 0; }
 .footer-col ul li a { color: #94a3b8; text-decoration: none; transition: 0.3s; font-size: 14px; }
 .footer-col ul li a:hover { color: #fbbf24; }
 .footer-bottom { text-align: center; padding-top: 20px; border-top: 1px solid #1e293b; font-size: 13px; }
+
+/* ===== BOUTON WHATSAPP FLOTTANT ===== */
+.whatsapp-float {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    bottom: 30px;
+    right: 30px;
+    background-color: #25d366;
+    color: #FFF;
+    border-radius: 50px;
+    text-align: center;
+    font-size: 35px;
+    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+    text-decoration: none;
+    animation: pulse-whatsapp 2s infinite;
+}
+.whatsapp-float:hover { transform: scale(1.1); background-color: #128c7e; }
+
+@keyframes pulse-whatsapp {
+    0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+    70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+}
+
+/* ===== RÉSEAUX SOCIAUX (FOOTER) ===== */
+.social-links { display: flex; gap: 15px; margin-top: 15px; }
+.social-links a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: #1e293b;
+    color: white;
+    border-radius: 50%;
+    text-decoration: none;
+    transition: 0.3s;
+}
+.social-links a:hover { transform: translateY(-3px); }
+.social-links a.wa:hover { background: #25d366; }
+.social-links a.fb:hover { background: #1877f2; }
+.social-links a.ig:hover { background: #e1306c; }
+.social-links svg { width: 20px; height: 20px; fill: currentColor; }
