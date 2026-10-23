@@ -179,16 +179,19 @@
         </div>
     </footer>
     
+    
     <script>
-        // 1. Affichage des avis approuvés
+        // --- 1. Affichage des avis approuvés ---
         fetch('/api/avis')
             .then(res => res.json())
             .then(avis => {
                 const container = document.getElementById('avis-container');
+                if(!container) return;
                 if(avis.length === 0) {
                     container.innerHTML = "<p style='text-align:center; grid-column:1/-1;'>Soyez le premier à donner votre avis !</p>";
                     return;
                 }
+                container.innerHTML = "";
                 avis.forEach(a => {
                     container.innerHTML += \
                         <div class="product-card" style="padding: 20px; text-align: center;">
@@ -200,24 +203,45 @@
                 });
             });
 
-        // 2. Envoi du formulaire
-        document.getElementById('public-avis-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const avis = {
-                nom: document.getElementById('pub-nom').value,
-                note: document.getElementById('pub-note').value,
-                commentaire: document.getElementById('pub-comment').value
-            };
-            const res = await fetch('/api/avis', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(avis) });
-            if(res.ok) {
-                alert("Merci ! Votre avis a été envoyé pour validation par l'équipe.");
-                e.target.reset();
-            } else {
-                alert("Erreur lors de l'envoi.");
-            }
-        });
+        // --- 2. Envoi du formulaire ---
+        const formAvis = document.getElementById('public-avis-form');
+        if(formAvis) {
+            formAvis.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const btn = formAvis.querySelector('button');
+                btn.innerText = "Envoi en cours...";
+                btn.disabled = true;
+
+                const avis = {
+                    nom: document.getElementById('pub-nom').value,
+                    note: document.getElementById('pub-note').value,
+                    commentaire: document.getElementById('pub-comment').value
+                };
+
+                try {
+                    const res = await fetch('/api/avis', { 
+                        method: 'POST', 
+                        headers: { 'Content-Type': 'application/json' }, 
+                        body: JSON.stringify(avis) 
+                    });
+                    
+                    if(res.ok) {
+                        alert("✅ Merci ! Votre avis a bien été envoyé. Il sera visible après validation par l'équipe.");
+                        formAvis.reset();
+                    } else {
+                        alert("❌ Erreur lors de l'envoi.");
+                    }
+                } catch (err) {
+                    alert("❌ Erreur réseau.");
+                } finally {
+                    btn.innerText = "Envoyer mon avis";
+                    btn.disabled = false;
+                }
+            });
+        }
     </script>
 </body>
 </html>
+
 
 
