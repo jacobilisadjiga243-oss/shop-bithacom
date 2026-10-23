@@ -10,7 +10,10 @@
     <!-- ÉCRAN DE CONNEXION -->
     <div id="login-screen" style="display:flex; justify-content:center; align-items:center; height:100vh; background:#f3f4f6;">
         <div class="admin-panel" style="width:100%; max-width:400px; text-align:center;">
-            <h2 style="border:none;">🔒 Accès Gérant</h2>
+            <h2 style="border:none; display:flex; align-items:center; justify-content:center; gap:10px;">
+                <svg width="28" height="28" fill="#1e3a8a" viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+                Accès Gérant
+            </h2>
             <form id="login-form" style="display:flex; flex-direction:column; gap:15px; margin-top:20px;">
                 <input type="password" id="admin-password" placeholder="Mot de passe (bitha2025)" style="padding:12px; border:1px solid #ccc; border-radius:8px;" required>
                 <button type="submit" style="padding:12px; background:#1e3a8a; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">Se connecter</button>
@@ -22,23 +25,35 @@
     <div class="admin-layout" id="admin-dashboard" style="display:none;">
         <aside class="admin-sidebar">
             <div class="brand">SHOP <span>BITHACOM</span></div>
-            <a href="#" onclick="showTab('produits')" id="tab-produits" class="active">📦 Produits</a>
-            <a href="#" onclick="showTab('colis')" id="tab-colis">✈️ Agence de Colis</a>
+            <a href="#" onclick="showTab('produits')" id="tab-produits" class="active" style="display:flex; align-items:center; gap:10px;">
+                <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M20 2H4c-1 0-2 .9-2 2v3.01c0 .72.43 1.34 1 1.69V20c0 1.1 1.1 2 2 2h14c.9 0 2-.9 2-2V8.7c.57-.35 1-.97 1-1.69V4c0-1.1-1-2-2-2zm-5 12H9v-2h6v2zm5-7H4V4h16v3z"/></svg>
+                Produits
+            </a>
+            <a href="#" onclick="showTab('colis')" id="tab-colis" style="display:flex; align-items:center; gap:10px;">
+                <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
+                Agence de Colis
+            </a>
             <a href="#" onclick="showTab(''adresses'')" id="tab-adresses">📍 Adresses</a>
             <a href="#" onclick="showTab(''avis'')" id="tab-avis">⭐ Avis Clients</a>
-            <a href="index.html" target="_blank">🌐 Voir le site</a>
-            <a href="#" onclick="logout()">🚪 Déconnexion</a>
+            <a href="index.html" target="_blank" style="display:flex; align-items:center; gap:10px;">
+                <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                Voir le site
+            </a>
+            <a href="#" onclick="logout()" style="display:flex; align-items:center; gap:10px;">
+                <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M10.09 15.59L11.5 17l5-5-5-5-1.41 1.41L12.67 11H3v2h9.67l-2.58 2.59zM19 3H5c-1.11 0-2 .9-2 2v4h2V5h14v14H5v-4H3v4c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                Déconnexion
+            </a>
         </aside>
 
         <main class="admin-main">
             <!-- STATISTIQUES -->
             <div class="admin-stats">
                 <div class="stat-card">
-                    <h3>Produits en ligne</h3>
+                    <h3 style="display:flex; align-items:center; gap:8px;"><svg width="16" height="16" fill="#3b82f6" viewBox="0 0 24 24"><path d="M20 2H4c-1 0-2 .9-2 2v3.01c0 .72.43 1.34 1 1.69V20c0 1.1 1.1 2 2 2h14c.9 0 2-.9 2-2V8.7c.57-.35 1-.97 1-1.69V4c0-1.1-1-2-2-2zm-5 12H9v-2h6v2zm5-7H4V4h16v3z"/></svg> Produits en ligne</h3>
                     <p id="stat-total">0</p>
                 </div>
                 <div class="stat-card" style="border-left-color: #f59e0b;">
-                    <h3>Avis en attente</h3>
+                    <h3 style="display:flex; align-items:center; gap:8px;"><svg width="16" height="16" fill="#f59e0b" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg> Avis en attente</h3>
                     <p id="stat-avis-attente">0</p>
                 </div>
             </div>
@@ -47,7 +62,7 @@
             <div id="section-produits">
                 <h1>Gestion des Produits</h1>
                 <div class="admin-panel">
-                    <h2 id="form-title">➕ Ajouter un produit</h2>
+                    <h2 id="form-title"><svg width="20" height="20" fill="#10b981" viewBox="0 0 24 24" style="vertical-align:middle; margin-right:5px;"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg> Ajouter un produit</h2>
                     <form class="admin-form" id="product-form">
                         <input type="hidden" id="p-id">
                         <input type="text" id="p-name" placeholder="Nom du produit" required>
@@ -74,7 +89,7 @@
                     </form>
                 </div>
                 <div class="admin-panel">
-                    <h2>📦 Liste des produits</h2>
+                    <h2><svg width="20" height="20" fill="#3b82f6" viewBox="0 0 24 24" style="vertical-align:middle; margin-right:5px;"><path d="M20 2H4c-1 0-2 .9-2 2v3.01c0 .72.43 1.34 1 1.69V20c0 1.1 1.1 2 2 2h14c.9 0 2-.9 2-2V8.7c.57-.35 1-.97 1-1.69V4c0-1.1-1-2-2-2zm-5 12H9v-2h6v2zm5-7H4V4h16v3z"/></svg> Liste des produits</h2>
                     <table class="admin-table"><thead><tr><th>Image</th><th>Nom</th><th>Prix</th><th>Catégorie</th><th>Action</th></tr></thead><tbody id="product-list"></tbody></table>
                 </div>
             </div>
@@ -164,6 +179,7 @@
     <script src="js/admin.js"></script>
 </body>
 </html>
+
 
 
 
