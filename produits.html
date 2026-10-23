@@ -20,6 +20,13 @@
     <h1 class="page-title">Nos Produits</h1>
     <p class="page-subtitle">Sélectionnez vos articles et commandez via WhatsApp</p>
 
+    <!-- BARRE DE RECHERCHE -->
+    <div class="search-bar">
+        <input type="text" id="search-input" placeholder="Rechercher un produit (ex: iPhone)..." onkeyup="rechercherProduits()">
+        <button>Chercher</button>
+    </div>
+
+    <!-- FILTRES -->
     <div class="filters">
         <button class="active" onclick="filterProducts('all', this)">Tous</button>
         <button onclick="filterProducts('nouveaute', this)">Nouveautés</button>
@@ -27,6 +34,7 @@
         <button onclick="filterProducts('best-seller', this)">Meilleures ventes</button>
     </div>
 
+    <!-- GRILLE PRODUITS -->
     <div class="products-grid" id="products-container"></div>
 
     <!-- PANIER FLOTTANT -->
@@ -41,22 +49,25 @@
 
     <script>
         let allProducts = [];
+        let filteredProducts = [];
         let panier = JSON.parse(localStorage.getItem('panier_bitha')) || [];
 
-        // Charger les produits depuis l'API
+        // Charger les produits
         fetch('/api')
             .then(res => res.json())
             .then(data => {
                 allProducts = data;
-                renderProducts(allProducts);
+                filteredProducts = data;
+                renderProducts(filteredProducts);
                 updateCartCount();
             });
 
+        // Afficher les produits
         function renderProducts(products) {
             const container = document.getElementById('products-container');
             container.innerHTML = "";
             if(products.length === 0) {
-                container.innerHTML = "<p style='text-align:center; grid-column:1/-1;'>Aucun produit dans cette catégorie.</p>";
+                container.innerHTML = "<p style='text-align:center; grid-column:1/-1;'>Aucun produit trouvé.</p>";
                 return;
             }
             products.forEach(p => {
@@ -75,16 +86,34 @@
             });
         }
 
+        // Filtrer par catégorie
         function filterProducts(category, btn) {
             document.querySelectorAll('.filters button').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
+            
             if(category === 'all') {
-                renderProducts(allProducts);
+                filteredProducts = allProducts;
             } else {
-                renderProducts(allProducts.filter(p => p.categorie === category));
+                filteredProducts = allProducts.filter(p => p.categorie === category);
             }
+            renderProducts(filteredProducts);
         }
 
+        // Rechercher un produit en temps réel
+        function rechercherProduits() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            const results = allProducts.filter(p => 
+                p.nom.toLowerCase().includes(searchTerm) || 
+                p.description.toLowerCase().includes(searchTerm)
+            );
+            renderProducts(results);
+            
+            // Réinitialiser les filtres actifs
+            document.querySelectorAll('.filters button').forEach(b => b.classList.remove('active'));
+            document.querySelector('.filters button').classList.add('active');
+        }
+
+        // Panier
         function ajouterAuPanier(id, nom, prix) {
             panier.push({ id, nom, prix });
             localStorage.setItem('panier_bitha', JSON.stringify(panier));
@@ -106,7 +135,6 @@
                 message += `${index + 1}. ${item.nom} (${item.prix})%0A`;
             });
             window.open(`https://wa.me/243819770888?text=${message}`, "_blank");
-            // On vide le panier après commande
             panier = [];
             localStorage.setItem('panier_bitha', JSON.stringify(panier));
             updateCartCount();
