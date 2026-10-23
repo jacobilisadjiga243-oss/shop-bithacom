@@ -92,7 +92,7 @@ async function deleteProduct(id) {
 // --- GESTION DES AVIS ---
 async function loadAvis() {
     try {
-        const res = await fetch('/api/avis-admin'); // Nouvelle route
+        const res = await fetch('/api/avis'); // Nouvelle route
         const avis = await res.json();
         const list = document.getElementById("avis-list");
         list.innerHTML = "";
@@ -120,10 +120,11 @@ async function loadAvis() {
 }
 
 async function approveAvis(id) {
-    await fetch('/api/avis-admin', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: id }) });
+    await fetch('/api/avis', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: id }) });
     loadAvis();
 }
 
 async function deleteAvis(id) {
     if (confirm("Supprimer cet avis ?")) { await fetch(`/api/avis-admin?id=${id}`, { method: 'DELETE' }); loadAvis(); }
 }
+

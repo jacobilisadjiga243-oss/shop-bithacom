@@ -34,10 +34,10 @@ export async function onRequest(context) {
             }
         }
 
-        // ===== AVIS PUBLICS (Approuvés uniquement) =====
+        // ===== AVIS =====
         if (url.pathname === '/api/avis') {
             if (request.method === 'GET') {
-                const { rows } = await client.query('SELECT * FROM avis_clients WHERE approuve = true ORDER BY id DESC');
+                const { rows } = await client.query('SELECT * FROM avis_clients ORDER BY id DESC');
                 return new Response(JSON.stringify(rows), { status: 200, headers: { 'Content-Type': 'application/json' } });
             } else if (request.method === 'POST') {
                 const body = await request.json();
@@ -46,14 +46,6 @@ export async function onRequest(context) {
                     [body.nom, body.commentaire, body.note]
                 );
                 return new Response(JSON.stringify(rows[0]), { status: 201, headers: { 'Content-Type': 'application/json' } });
-            }
-        }
-
-        // ===== AVIS ADMIN (Tous les avis) =====
-        if (url.pathname === '/api/avis-admin') {
-            if (request.method === 'GET') {
-                const { rows } = await client.query('SELECT * FROM avis_clients ORDER BY id DESC');
-                return new Response(JSON.stringify(rows), { status: 200, headers: { 'Content-Type': 'application/json' } });
             } else if (request.method === 'PUT') {
                 const body = await request.json();
                 await client.query('UPDATE avis_clients SET approuve = true WHERE id = $1', [body.id]);
