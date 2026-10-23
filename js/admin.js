@@ -1,4 +1,14 @@
 ﻿const PASSWORD = "bitha2025";
+// Aperçu de l'image
+document.getElementById("p-img").addEventListener("input", function() {
+    const img = document.getElementById("preview-img");
+    if(this.value.trim() !== "") {
+        img.src = this.value;
+        img.style.display = "block";
+    } else {
+        img.style.display = "none";
+    }
+});
 let products = [];
 
 document.getElementById("login-form").addEventListener("submit", (e) => {
@@ -134,3 +144,4 @@ async function approveAvis(id) {
 async function deleteAvis(id) {
     if (confirm("Supprimer cet avis ?")) { await fetch(`/api/avis?id=${id}`, { method: 'DELETE' }); loadAvis(); loadStats(); }
 }
+
