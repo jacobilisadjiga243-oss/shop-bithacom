@@ -41,7 +41,7 @@
                     const icon = v.type_voyage === 'aerien' ? '✈️' : v.type_voyage === 'maritime' ? '🚢' : '🚌';
                     container.innerHTML += `
                         <div class="product-card">
-                            <img src="${v.image_url}" alt="${v.destination}" style="height: 200px; object-fit: cover;">
+                            <img src="${v.image_url || 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=500'}" alt="${v.destination}" style="height: 200px; object-fit: cover;">
                             <div class="product-info">
                                 <h3>${icon} ${v.destination}</h3>
                                 <p class="desc">${v.description}</p>
@@ -56,3 +56,4 @@
     </script>
 </body>
 </html>
+

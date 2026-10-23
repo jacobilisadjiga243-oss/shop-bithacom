@@ -17,14 +17,14 @@ export async function onRequest(context) {
                 const body = await request.json();
                 const { rows } = await client.query(
                     'INSERT INTO produits (nom, prix, devise, description, image_url, categorie) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
-                    [body.name, body.price, body.currency, body.desc || '', body.img, body.category || 'standard']
+                    [body.name, body.price, body.currency, body.desc || '', (body.img || "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=500"), body.category || 'standard']
                 );
                 return new Response(JSON.stringify(rows[0]), { status: 201, headers: { 'Content-Type': 'application/json' } });
             } else if (request.method === 'PUT') {
                 const body = await request.json();
                 const { rows } = await client.query(
                     'UPDATE produits SET nom=$1, prix=$2, devise=$3, description=$4, image_url=$5, categorie=$6 WHERE id=$7 RETURNING *',
-                    [body.name, body.price, body.currency, body.desc || '', body.img, body.category, body.id]
+                    [body.name, body.price, body.currency, body.desc || '', (body.img || "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=500"), body.category, body.id]
                 );
                 return new Response(JSON.stringify(rows[0]), { status: 200, headers: { 'Content-Type': 'application/json' } });
             } else if (request.method === 'DELETE') {
@@ -84,4 +84,5 @@ export async function onRequest(context) {
         await client.end();
     }
 }
+
 
