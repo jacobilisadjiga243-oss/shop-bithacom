@@ -169,5 +169,34 @@
             }
         });
     </script>
+    <script>
+        // Afficher les 3 derniers produits sur l'accueil
+        fetch('/api')
+            .then(res => res.json())
+            .then(products => {
+                const container = document.getElementById('featured-products');
+                if(!container || products.length === 0) return;
+                
+                // On prend les 3 premiers
+                const featured = products.slice(0, 3);
+                
+                featured.forEach(p => {
+                    const priceDisplay = p.devise === 'USD' ? \\$ \\ : \\ FC\;
+                    container.innerHTML += \
+                        <div class="product-card">
+                            <img src="\" alt="\">
+                            <div class="product-info">
+                                <h3>\</h3>
+                                <p class="desc">\</p>
+                                <p class="price">\</p>
+                                <a href="produits.html" class="btn-buy" style="text-align:center; text-decoration:none; display:block;">Voir</a>
+                            </div>
+                        </div>
+                    \;
+                });
+            });
+    </script>
 </body>
 </html>
+
+
