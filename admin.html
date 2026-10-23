@@ -113,6 +113,36 @@
                     <table class="admin-table"><thead><tr><th>Type</th><th>Destination</th><th>Date</th><th>Prix</th><th>Action</th></tr></thead><tbody id="voyage-list"></tbody></table>
                 </div>
             </div>
+            <!-- SECTION AGENCE DE COLIS -->
+            <div id="section-voyages" style="display:none;">
+                <h1>Gestion de l'Agence de Colis</h1>
+                <div class="admin-panel">
+                    <h2>➕ Ajouter un programme d'envoi de colis</h2>
+                    <form class="admin-form" id="voyage-form">
+                        <select id="v-type" class="full-width" style="padding:12px; border:1px solid #cbd5e1; border-radius:8px;" required>
+                            <option value="aerien">✈️ Voie Aérienne</option>
+                            <option value="maritime">🚢 Voie Maritime</option>
+                            <option value="terrestre">🚌 Voie Terrestre</option>
+                        </select>
+                        <input type="text" id="v-destination" placeholder="Destination (ex: Kinshasa - Paris)" class="full-width" required>
+                        <input type="text" id="v-date" placeholder="Date d'envoi (ex: Départ le 15 Nov)" class="full-width" required>
+                        <div style="display:flex; gap:10px;">
+                            <input type="text" id="v-price" placeholder="Prix par kg" style="flex:2;" required>
+                            <select id="v-currency" style="flex:1; padding:12px; border:1px solid #cbd5e1; border-radius:8px;">
+                                <option value="USD">$ USD</option>
+                                <option value="FC">FC</option>
+                            </select>
+                        </div>
+                        <input type="url" id="v-img" placeholder="Lien de l'image (ex: colis, avion)" class="full-width" required>
+                        <textarea id="v-desc" placeholder="Description (ex: Colis acceptés jusqu'à 30kg)" class="full-width" rows="2"></textarea>
+                        <button type="submit" class="full-width" style="background:#3b82f6;">💾 Enregistrer</button>
+                    </form>
+                </div>
+                <div class="admin-panel">
+                    <h2>📦 Liste des envois programmés</h2>
+                    <table class="admin-table"><thead><tr><th>Type</th><th>Destination</th><th>Date d'envoi</th><th>Prix/kg</th><th>Action</th></tr></thead><tbody id="voyage-list"></tbody></table>
+                </div>
+            </div>
 <!-- SECTION AVIS -->
             <div id="section-avis" style="display:none;">
                 <h1>Gestion des Avis Clients</h1>
@@ -126,5 +156,6 @@
     <script src="js/admin.js"></script>
 </body>
 </html>
+
 
 

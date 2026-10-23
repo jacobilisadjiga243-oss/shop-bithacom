@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agence de Voyage - SHOP BITHACOM</title>
+    <title>Agence de Colis - SHOP BITHACOM</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -12,13 +12,13 @@
         <nav>
             <a href="index.html">Accueil</a>
             <a href="produits.html">Produits</a>
-            <a href="voyages.html">Voyages</a>
+            <a href="voyages.html">Agence de Colis</a>
             <a href="contact.html">Contact</a>
         </nav>
     </header>
 
-    <h1 class="page-title">Agence de Voyage</h1>
-    <p class="page-subtitle">Vols, Maritime et Terrestre - Réservez votre prochain voyage</p>
+    <h1 class="page-title">Agence de Fret & Colis</h1>
+    <p class="page-subtitle">Envoyez et recevez vos colis par voie aérienne, maritime ou terrestre</p>
 
     <div class="products-grid" id="voyages-container"></div>
 
@@ -32,21 +32,21 @@
             .then(voyages => {
                 const container = document.getElementById('voyages-container');
                 if(voyages.length === 0) {
-                    container.innerHTML = "<p style='text-align:center; grid-column:1/-1;'>Aucun voyage disponible pour le moment.</p>";
+                    container.innerHTML = "<p style='text-align:center; grid-column:1/-1;'>Aucun programme d'envoi disponible pour le moment.</p>";
                     return;
                 }
                 voyages.forEach(v => {
-                    const priceDisplay = v.devise === 'USD' ? `$ ${v.prix}` : `${v.prix} FC`;
-                    const icon = v.type_voyage === 'vol' ? '✈️' : v.type_voyage === 'maritime' ? '🚢' : '🚌';
+                    const priceDisplay = v.devise === 'USD' ? `$ ${v.prix} / kg` : `${v.prix} FC / kg`;
+                    const icon = v.type_voyage === 'aerien' ? '✈️' : v.type_voyage === 'maritime' ? '🚢' : '🚌';
                     container.innerHTML += `
                         <div class="product-card">
                             <img src="${v.image_url}" alt="${v.destination}" style="height: 200px; object-fit: cover;">
                             <div class="product-info">
                                 <h3>${icon} ${v.destination}</h3>
                                 <p class="desc">${v.description}</p>
-                                <p style="color: #3b82f6; font-weight: bold; margin: 10px 0;">📅 Départ : ${v.date_depart}</p>
+                                <p style="color: #3b82f6; font-weight: bold; margin: 10px 0;">📅 ${v.date_depart}</p>
                                 <p class="price">${priceDisplay}</p>
-                                <button class="btn-buy" onclick="window.open('https://wa.me/243819770888?text=Bonjour, je souhaite réserver le voyage vers ${v.destination} prévu le ${v.date_depart}.', '_blank')">Réserver via WhatsApp</button>
+                                <button class="btn-buy" onclick="window.open('https://wa.me/243819770888?text=Bonjour, je souhaite envoyer un colis vers ${v.destination} (${v.date_depart}).', '_blank')">📦 Envoyer un colis</button>
                             </div>
                         </div>
                     `;

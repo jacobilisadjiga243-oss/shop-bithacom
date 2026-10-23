@@ -40,6 +40,7 @@ function showTab(tab) {
     document.getElementById('tab-avis').classList.toggle('active', tab === 'avis');
     if(tab === 'avis') loadAvis();
     if(tab === 'voyages') loadVoyages();
+    if(tab === 'voyages') loadVoyages();
     if(tab === 'produits') loadProducts();
 }
 
@@ -155,6 +156,38 @@ document.getElementById("voyage-form").addEventListener("submit", async (e) => {
 async function deleteVoyage(id) {
     if (confirm("Supprimer ce voyage ?")) { await fetch(`/api/voyages?id=${id}`, { method: 'DELETE' }); loadVoyages(); }
 }
+// --- AGENCE DE COLIS ---
+async function loadVoyages() {
+    const res = await fetch('/api/voyages');
+    const voyages = await res.json();
+    const list = document.getElementById("voyage-list");
+    list.innerHTML = "";
+    voyages.forEach(v => {
+        const priceDisplay = v.devise === 'USD' ? `$ ${v.prix}` : `${v.prix} FC`;
+        const icon = v.type_voyage === 'aerien' ? '✈️' : v.type_voyage === 'maritime' ? '🚢' : '🚌';
+        list.innerHTML += `<tr><td>${icon} ${v.type_voyage}</td><td>${v.destination}</td><td>${v.date_depart}</td><td>${priceDisplay}</td><td><button class="btn-danger" onclick="deleteVoyage(${v.id})">X</button></td></tr>`;
+    });
+}
+
+document.getElementById("voyage-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const newVoyage = {
+        type: document.getElementById("v-type").value,
+        destination: document.getElementById("v-destination").value,
+        date: document.getElementById("v-date").value,
+        price: document.getElementById("v-price").value,
+        currency: document.getElementById("v-currency").value,
+        desc: document.getElementById("v-desc").value,
+        img: document.getElementById("v-img").value
+    };
+    await fetch('/api/voyages', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(newVoyage) });
+    document.getElementById("voyage-form").reset();
+    loadVoyages();
+});
+
+async function deleteVoyage(id) {
+    if (confirm("Supprimer cet envoi ?")) { await fetch(`/api/voyages?id=${id}`, { method: 'DELETE' }); loadVoyages(); }
+}
 // --- AVIS ---
 async function loadAvis() {
     const res = await fetch('/api/avis');
@@ -186,6 +219,7 @@ async function approveAvis(id) {
 async function deleteAvis(id) {
     if (confirm("Supprimer cet avis ?")) { await fetch(`/api/avis?id=${id}`, { method: 'DELETE' }); loadAvis(); loadStats(); }
 }
+
 
 
 

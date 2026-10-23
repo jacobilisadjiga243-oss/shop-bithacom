@@ -57,7 +57,7 @@ export async function onRequest(context) {
             }
         }
 
-        // ===== VOYAGES (AGENCE) =====
+                // ===== AGENCE DE COLIS (VOYAGES) =====
         if (url.pathname === '/api/voyages') {
             if (request.method === 'GET') {
                 const { rows } = await client.query('SELECT * FROM voyages ORDER BY id DESC');
@@ -84,3 +84,4 @@ export async function onRequest(context) {
         await client.end();
     }
 }
+
