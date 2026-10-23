@@ -23,7 +23,8 @@
         <aside class="admin-sidebar">
             <div class="brand">SHOP <span>BITHACOM</span></div>
             <a href="#" onclick="showTab('produits')" id="tab-produits" class="active">📦 Produits</a>
-            <a href="#" onclick="showTab('avis')" id="tab-avis">⭐ Avis Clients</a>
+            <a href="#" onclick="showTab(''avis'')" id="tab-avis">⭐ Avis Clients</a>
+            <a href="#" onclick="showTab(''voyages'')" id="tab-voyages">✈️ Voyages</a>
             <a href="index.html" target="_blank">🌐 Voir le site</a>
             <a href="#" onclick="logout()">🚪 Déconnexion</a>
         </aside>
@@ -82,7 +83,37 @@
                 </div>
             </div>
 
-            <!-- SECTION AVIS -->
+                        <!-- SECTION VOYAGES -->
+            <div id="section-voyages" style="display:none;">
+                <h1>Gestion des Voyages (Agence)</h1>
+                <div class="admin-panel">
+                    <h2>➕ Ajouter un programme de voyage</h2>
+                    <form class="admin-form" id="voyage-form">
+                        <select id="v-type" class="full-width" style="padding:12px; border:1px solid #cbd5e1; border-radius:8px;" required>
+                            <option value="vol">✈️ Vol Aérien</option>
+                            <option value="maritime">🚢 Maritime</option>
+                            <option value="terrestre">🚌 Terrestre</option>
+                        </select>
+                        <input type="text" id="v-destination" placeholder="Destination (ex: Kinshasa - Paris)" class="full-width" required>
+                        <input type="text" id="v-date" placeholder="Date de départ (ex: 15 Nov 2026)" class="full-width" required>
+                        <div style="display:flex; gap:10px;">
+                            <input type="text" id="v-price" placeholder="Prix" style="flex:2;" required>
+                            <select id="v-currency" style="flex:1; padding:12px; border:1px solid #cbd5e1; border-radius:8px;">
+                                <option value="USD">$ USD</option>
+                                <option value="FC">FC</option>
+                            </select>
+                        </div>
+                        <input type="url" id="v-img" placeholder="Lien de l'image (ex: avion)" class="full-width" required>
+                        <textarea id="v-desc" placeholder="Description (ex: Vol direct, bagage inclus)" class="full-width" rows="2"></textarea>
+                        <button type="submit" class="full-width" style="background:#3b82f6;">💾 Enregistrer</button>
+                    </form>
+                </div>
+                <div class="admin-panel">
+                    <h2>✈️ Liste des voyages</h2>
+                    <table class="admin-table"><thead><tr><th>Type</th><th>Destination</th><th>Date</th><th>Prix</th><th>Action</th></tr></thead><tbody id="voyage-list"></tbody></table>
+                </div>
+            </div>
+<!-- SECTION AVIS -->
             <div id="section-avis" style="display:none;">
                 <h1>Gestion des Avis Clients</h1>
                 <div class="admin-panel">
@@ -95,4 +126,5 @@
     <script src="js/admin.js"></script>
 </body>
 </html>
+
 

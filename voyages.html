@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agence de Voyage - SHOP BITHACOM</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="logo">SHOP<span> BITHACOM</span></div>
+        <nav>
+            <a href="index.html">Accueil</a>
+            <a href="produits.html">Produits</a>
+            <a href="voyages.html">Voyages</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+    </header>
+
+    <h1 class="page-title">Agence de Voyage</h1>
+    <p class="page-subtitle">Vols, Maritime et Terrestre - Réservez votre prochain voyage</p>
+
+    <div class="products-grid" id="voyages-container"></div>
+
+    <footer class="footer-pro">
+        <div class="footer-bottom"><p>&copy; 2026 SHOP BITHACOM.</p></div>
+    </footer>
+
+    <script>
+        fetch('/api/voyages')
+            .then(res => res.json())
+            .then(voyages => {
+                const container = document.getElementById('voyages-container');
+                if(voyages.length === 0) {
+                    container.innerHTML = "<p style='text-align:center; grid-column:1/-1;'>Aucun voyage disponible pour le moment.</p>";
+                    return;
+                }
+                voyages.forEach(v => {
+                    const priceDisplay = v.devise === 'USD' ? `$ ${v.prix}` : `${v.prix} FC`;
+                    const icon = v.type_voyage === 'vol' ? '✈️' : v.type_voyage === 'maritime' ? '🚢' : '🚌';
+                    container.innerHTML += `
+                        <div class="product-card">
+                            <img src="${v.image_url}" alt="${v.destination}" style="height: 200px; object-fit: cover;">
+                            <div class="product-info">
+                                <h3>${icon} ${v.destination}</h3>
+                                <p class="desc">${v.description}</p>
+                                <p style="color: #3b82f6; font-weight: bold; margin: 10px 0;">📅 Départ : ${v.date_depart}</p>
+                                <p class="price">${priceDisplay}</p>
+                                <button class="btn-buy" onclick="window.open('https://wa.me/243819770888?text=Bonjour, je souhaite réserver le voyage vers ${v.destination} prévu le ${v.date_depart}.', '_blank')">Réserver via WhatsApp</button>
+                            </div>
+                        </div>
+                    `;
+                });
+            });
+    </script>
+</body>
+</html>
