@@ -290,3 +290,19 @@ footer p { margin: 6px 0; }
 .social-links a.fb:hover { background: #1877f2; }
 .social-links a.ig:hover { background: #e1306c; }
 .social-links svg { width: 20px; height: 20px; fill: currentColor; }
+
+/* ===== BANDEAU DÉFILANT SLOGAN ===== */
+.slogan-ticker {
+    background: linear-gradient(90deg, #fbbf24, #f59e0b, #fbbf24);
+    color: #1e3a8a;
+    padding: 10px 0;
+    font-weight: bold;
+    font-size: 16px;
+    letter-spacing: 1px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+.slogan-text {
+    font-family: 'Segoe UI', sans-serif;
+    text-transform: uppercase;
+}
