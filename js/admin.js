@@ -6,6 +6,7 @@ document.getElementById("login-form").addEventListener("submit", (e) => {
     if (document.getElementById("admin-password").value === PASSWORD) {
         document.getElementById("login-screen").style.display = "none";
         document.getElementById("admin-dashboard").style.display = "flex";
+        loadStats();
         loadProducts();
         loadAvis();
     } else { alert("Mot de passe incorrect !"); }
@@ -19,9 +20,21 @@ function showTab(tab) {
     document.getElementById('tab-produits').classList.toggle('active', tab === 'produits');
     document.getElementById('tab-avis').classList.toggle('active', tab === 'avis');
     if(tab === 'avis') loadAvis();
+    if(tab === 'produits') loadProducts();
 }
 
-// --- GESTION DES PRODUITS ---
+// --- STATISTIQUES ---
+async function loadStats() {
+    try {
+        const res = await fetch('/api/stats');
+        const stats = await res.json();
+        document.getElementById('stat-total').innerText = stats.produits;
+        document.getElementById('stat-avis-attente').innerText = stats.avisAttente;
+        document.getElementById('stat-avis-total').innerText = stats.avisTotal;
+    } catch(e) { console.log("Erreur stats"); }
+}
+
+// --- PRODUITS ---
 async function loadProducts() {
     const res = await fetch('/api');
     products = await res.json();
@@ -58,6 +71,7 @@ document.getElementById("product-form").addEventListener("submit", async (e) => 
     await fetch('/api', { method: method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(newProduct) });
     cancelEdit();
     loadProducts();
+    loadStats();
 });
 
 function editProduct(id) {
@@ -86,45 +100,37 @@ function cancelEdit() {
 }
 
 async function deleteProduct(id) {
-    if (confirm("Supprimer ce produit ?")) { await fetch(`/api?id=${id}`, { method: 'DELETE' }); loadProducts(); }
+    if (confirm("Supprimer ce produit ?")) { await fetch(`/api?id=${id}`, { method: 'DELETE' }); loadProducts(); loadStats(); }
 }
 
-// --- GESTION DES AVIS ---
+// --- AVIS ---
 async function loadAvis() {
-    try {
-        const res = await fetch('/api/avis'); // Nouvelle route
-        const avis = await res.json();
-        const list = document.getElementById("avis-list");
-        list.innerHTML = "";
+    const res = await fetch('/api/avis');
+    const avis = await res.json();
+    const list = document.getElementById("avis-list");
+    list.innerHTML = "";
+    if(avis.length === 0) { list.innerHTML = "<tr><td colspan='5' style='text-align:center;'>Aucun avis pour le moment.</td></tr>"; return; }
+    
+    avis.forEach(a => {
+        const statut = a.approuve ? "<span style='color:green;font-weight:bold;'>✅ Publié</span>" : "<span style='color:orange;font-weight:bold;'>⏳ En attente</span>";
+        const btnPublier = a.approuve ? "" : `<button onclick="approveAvis(${a.id})" style="background:#10b981; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer; margin-right:5px;">Publier</button>`;
         
-        if(avis.length === 0) { 
-            list.innerHTML = "<tr><td colspan='5' style='text-align:center;'>Aucun avis reçu pour le moment.</td></tr>"; 
-            return; 
-        }
-        
-        avis.forEach(a => {
-            const statut = a.approuve ? "<span style='color:green;font-weight:bold;'>✅ Publié</span>" : "<span style='color:orange;font-weight:bold;'>⏳ En attente</span>";
-            const btnPublier = a.approuve ? "" : `<button onclick="approveAvis(${a.id})" style="background:#10b981; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer; margin-right:5px;">Publier</button>`;
-            
-            list.innerHTML += `<tr>
-                <td>${a.nom_client}</td>
-                <td>${'⭐'.repeat(a.note)}</td>
-                <td>${a.commentaire}</td>
-                <td>${statut}</td>
-                <td>${btnPublier}<button class="btn-danger" onclick="deleteAvis(${a.id})">X</button></td>
-            </tr>`;
-        });
-    } catch (err) {
-        console.error("Erreur lors du chargement des avis", err);
-    }
+        list.innerHTML += `<tr>
+            <td>${a.nom_client}</td>
+            <td>${'⭐'.repeat(a.note)}</td>
+            <td>${a.commentaire}</td>
+            <td>${statut}</td>
+            <td>${btnPublier}<button class="btn-danger" onclick="deleteAvis(${a.id})">X</button></td>
+        </tr>`;
+    });
 }
 
 async function approveAvis(id) {
     await fetch('/api/avis', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: id }) });
     loadAvis();
+    loadStats();
 }
 
 async function deleteAvis(id) {
-    if (confirm("Supprimer cet avis ?")) { await fetch(`/api/avis-admin?id=${id}`, { method: 'DELETE' }); loadAvis(); }
+    if (confirm("Supprimer cet avis ?")) { await fetch(`/api/avis?id=${id}`, { method: 'DELETE' }); loadAvis(); loadStats(); }
 }
-

@@ -1,0 +1,19 @@
+﻿// Dans ton fichier js/admin.js, ajoute cette fonction et appelle-la après le login
+async function loadStats() {
+    try {
+        const res = await fetch('/api/stats');
+        const stats = await res.json();
+        
+        // On met à jour les cartes (si elles existent dans le HTML)
+        const elProduits = document.getElementById('stat-total');
+        if(elProduits) elProduits.innerText = stats.produits;
+        
+        // On peut ajouter d'autres stats si on a les éléments HTML
+        const statAvis = document.querySelector('.stat-card:nth-child(2) p');
+        if(statAvis) statAvis.innerText = stats.avisAttente + " en attente";
+    } catch(e) { console.log("Erreur stats", e); }
+}
+
+// On l'appelle dans le formulaire de login après le succès
+// Cherche : document.getElementById("admin-dashboard").style.display = "flex";
+// Et ajoute juste en dessous : loadStats();

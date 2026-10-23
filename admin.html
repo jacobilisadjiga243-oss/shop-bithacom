@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    <!-- ÉCRAN DE CONNEXION -->
     <div id="login-screen" style="display:flex; justify-content:center; align-items:center; height:100vh; background:#f3f4f6;">
         <div class="admin-panel" style="width:100%; max-width:400px; text-align:center;">
             <h2 style="border:none;">🔒 Accès Gérant</h2>
@@ -17,6 +18,7 @@
         </div>
     </div>
 
+    <!-- DASHBOARD -->
     <div class="admin-layout" id="admin-dashboard" style="display:none;">
         <aside class="admin-sidebar">
             <div class="brand">SHOP <span>BITHACOM</span></div>
@@ -27,6 +29,22 @@
         </aside>
 
         <main class="admin-main">
+            <!-- STATISTIQUES -->
+            <div class="admin-stats">
+                <div class="stat-card">
+                    <h3>Produits en ligne</h3>
+                    <p id="stat-total" style="color: #1e3a8a;">0</p>
+                </div>
+                <div class="stat-card" style="border-left-color: #f59e0b;">
+                    <h3>Avis en attente</h3>
+                    <p id="stat-avis-attente" style="color: #f59e0b;">0</p>
+                </div>
+                <div class="stat-card" style="border-left-color: #10b981;">
+                    <h3>Total Avis clients</h3>
+                    <p id="stat-avis-total" style="color: #10b981;">0</p>
+                </div>
+            </div>
+
             <!-- SECTION PRODUITS -->
             <div id="section-produits">
                 <h1>Gestion des Produits</h1>
@@ -48,7 +66,7 @@
                             <option value="promotion">Promotion</option>
                             <option value="best-seller">Meilleure vente</option>
                         </select>
-                        <input type="url" id="p-img" placeholder="Lien de l'image" class="full-width" required>
+                        <input type="url" id="p-img" placeholder="Lien de l'image (Postimages)" class="full-width" required>
                         <textarea id="p-desc" placeholder="Description (Optionnel)" class="full-width" rows="2"></textarea>
                         <button type="submit" id="btn-submit" class="full-width" style="background:#10b981;">💾 Enregistrer</button>
                         <button type="button" id="btn-cancel" class="full-width" onclick="cancelEdit()" style="background:#ef4444; display:none;">Annuler la modification</button>
@@ -64,7 +82,7 @@
             <div id="section-avis" style="display:none;">
                 <h1>Gestion des Avis Clients</h1>
                 <div class="admin-panel">
-                    <p style="color:#666; margin-bottom:20px;">Voici les avis laissés par les clients sur le site. Cliquez sur <b>"Publier"</b> pour les afficher sur la page d'accueil, ou <b>"Supprimer"</b> pour les rejeter.</p>
+                    <p style="color:#666; margin-bottom:20px;">Voici les avis laissés par les clients. Cliquez sur <b>"Publier"</b> pour les afficher sur l'accueil, ou <b>"Supprimer"</b> pour les rejeter.</p>
                     <table class="admin-table"><thead><tr><th>Client</th><th>Note</th><th>Commentaire</th><th>Statut</th><th>Action</th></tr></thead><tbody id="avis-list"></tbody></table>
                 </div>
             </div>

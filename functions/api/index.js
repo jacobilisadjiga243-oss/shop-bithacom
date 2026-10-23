@@ -33,6 +33,30 @@ export async function onRequest(context) {
             await client.query('DELETE FROM produits WHERE id = $1', [id]);
             return new Response(JSON.stringify({ success: true }), { status: 200 });
         }
+        // ===== STATISTIQUES (Pour l'admin) =====
+        if (url.pathname === '/api/stats') {
+            const produits = await client.query('SELECT COUNT(*) FROM produits');
+            const avisTotal = await client.query('SELECT COUNT(*) FROM avis_clients');
+            const avisAttente = await client.query('SELECT COUNT(*) FROM avis_clients WHERE approuve = false');
+            
+            return new Response(JSON.stringify({
+                produits: parseInt(produits.rows[0].count),
+                avisTotal: parseInt(avisTotal.rows[0].count),
+                avisAttente: parseInt(avisAttente.rows[0].count)
+            }), { status: 200, headers: { 'Content-Type': 'application/json' } });
+        }
+        // ===== STATISTIQUES (Pour l'admin) =====
+        if (url.pathname === '/api/stats') {
+            const produits = await client.query('SELECT COUNT(*) FROM produits');
+            const avisTotal = await client.query('SELECT COUNT(*) FROM avis_clients');
+            const avisAttente = await client.query('SELECT COUNT(*) FROM avis_clients WHERE approuve = false');
+            
+            return new Response(JSON.stringify({
+                produits: parseInt(produits.rows[0].count),
+                avisTotal: parseInt(avisTotal.rows[0].count),
+                avisAttente: parseInt(avisAttente.rows[0].count)
+            }), { status: 200, headers: { 'Content-Type': 'application/json' } });
+        }
 
         return new Response("Méthode non autorisée", { status: 405 });
 
@@ -42,3 +66,5 @@ export async function onRequest(context) {
         await client.end();
     }
 }
+
+
