@@ -673,3 +673,20 @@ header.scrolled {
 ::-webkit-scrollbar-track { background: #f1f5f9; }
 ::-webkit-scrollbar-thumb { background: #1e3a8a; border-radius: 5px; }
 ::-webkit-scrollbar-thumb:hover { background: #3b82f6; }
+
+/* ===== REDIMENSIONNER LE FOOTER ===== */
+.footer-pro {
+    padding: 40px 20px 15px; /* Réduit l'espace en haut et en bas */
+}
+.footer-grid {
+    gap: 30px;
+    margin-bottom: 20px;
+}
+.footer-col p {
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+.footer-bottom {
+    padding-top: 15px;
+    font-size: 12px;
+}
