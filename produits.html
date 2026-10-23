@@ -122,6 +122,11 @@
         }
 
         function updateCartCount() {
+    const cart = document.querySelector('.cart-float');
+    if(cart) {
+        cart.classList.add('bounce');
+        setTimeout(() => cart.classList.remove('bounce'), 300);
+    }
             document.getElementById('cart-count').innerText = panier.length;
         }
 
@@ -142,3 +147,4 @@
     </script>
 </body>
 </html>
+
