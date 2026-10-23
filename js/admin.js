@@ -1,62 +1,55 @@
 ﻿const PASSWORD = "bitha2025";
-// Aperçu de l'image
-document.getElementById("p-img").addEventListener("input", function() {
-    const img = document.getElementById("preview-img");
-    if(this.value.trim() !== "") {
-        img.src = this.value;
-        img.style.display = "block";
-    } else {
-        img.style.display = "none";
-    }
-});
 let products = [];
 
+// Connexion
 document.getElementById("login-form").addEventListener("submit", (e) => {
     e.preventDefault();
     if (document.getElementById("admin-password").value === PASSWORD) {
-        localStorage.setItem("bitha_admin_logged", "true");
-        document.getElementById("login-screen").style.display = "none";
-        document.getElementById("admin-dashboard").style.display = "flex";
-        loadStats();
-        loadProducts();
-        loadAvis();
+        localStorage.setItem("bitha_admin", "true");
+        afficherDashboard();
     } else { alert("Mot de passe incorrect !"); }
 });
 
-function logout() { localStorage.removeItem("bitha_admin_logged"); location.reload(); }
-// Vérifier si déjà connecté au chargement
+// Vérifier si déjà connecté
 document.addEventListener("DOMContentLoaded", () => {
-    if(localStorage.getItem("bitha_admin_logged") === "true") {
-        document.getElementById("login-screen").style.display = "none";
-        document.getElementById("admin-dashboard").style.display = "flex";
-        loadStats(); loadProducts(); loadAvis();
+    if(localStorage.getItem("bitha_admin") === "true") {
+        afficherDashboard();
     }
 });
 
-function showTab(tab) {
-    document.getElementById('section-produits').style.display = tab === 'produits' ? 'block' : 'none';
-    document.getElementById('section-avis').style.display = tab === 'avis' ? 'block' : 'none';
-    document.getElementById('tab-produits').classList.toggle('active', tab === 'produits');
-    document.getElementById('tab-avis').classList.toggle('active', tab === 'avis');
-    if(tab === 'avis') loadAvis();
-    if(tab === 'voyages') loadVoyages();
-    if(tab === 'voyages') loadVoyages();
-    if(tab === 'voyages') loadVoyages();
-    if(tab === 'produits') loadProducts();
+function afficherDashboard() {
+    document.getElementById("login-screen").style.display = "none";
+    document.getElementById("admin-dashboard").style.display = "flex";
+    loadStats(); loadProducts(); loadColis(); loadAvis();
 }
 
-// --- STATISTIQUES ---
+function logout() { localStorage.removeItem("bitha_admin"); location.reload(); }
+
+// Navigation
+function showTab(tab) {
+    document.getElementById('section-produits').style.display = tab === 'produits' ? 'block' : 'none';
+    document.getElementById('section-colis').style.display = tab === 'colis' ? 'block' : 'none';
+    document.getElementById('section-avis').style.display = tab === 'avis' ? 'block' : 'none';
+    
+    document.getElementById('tab-produits').classList.toggle('active', tab === 'produits');
+    document.getElementById('tab-colis').classList.toggle('active', tab === 'colis');
+    document.getElementById('tab-avis').classList.toggle('active', tab === 'avis');
+    
+    if(tab === 'colis') loadColis();
+    if(tab === 'avis') loadAvis();
+}
+
+// Stats
 async function loadStats() {
     try {
         const res = await fetch('/api/stats');
         const stats = await res.json();
         document.getElementById('stat-total').innerText = stats.produits;
         document.getElementById('stat-avis-attente').innerText = stats.avisAttente;
-        document.getElementById('stat-avis-total').innerText = stats.avisTotal;
-    } catch(e) { console.log("Erreur stats"); }
+    } catch(e) {}
 }
 
-// --- PRODUITS ---
+// PRODUITS
 async function loadProducts() {
     const res = await fetch('/api');
     products = await res.json();
@@ -75,6 +68,12 @@ async function loadProducts() {
     });
 }
 
+document.getElementById("p-img").addEventListener("input", function() {
+    const img = document.getElementById("preview-img");
+    img.src = this.value;
+    img.style.display = this.value ? "block" : "none";
+});
+
 document.getElementById("product-form").addEventListener("submit", async (e) => {
     e.preventDefault();
     const id = document.getElementById("p-id").value;
@@ -86,14 +85,10 @@ document.getElementById("product-form").addEventListener("submit", async (e) => 
         img: document.getElementById("p-img").value,
         category: document.getElementById("p-category").value
     };
-
     const method = id ? 'PUT' : 'POST';
     if(id) newProduct.id = id;
-
     await fetch('/api', { method: method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(newProduct) });
-    cancelEdit();
-    loadProducts();
-    loadStats();
+    cancelEdit(); loadProducts(); loadStats();
 });
 
 function editProduct(id) {
@@ -106,8 +101,9 @@ function editProduct(id) {
     document.getElementById("p-desc").value = p.description;
     document.getElementById("p-img").value = p.image_url;
     document.getElementById("p-category").value = p.categorie;
-    
-    document.getElementById("form-title").innerText = "✏️ Modifier le produit";
+    document.getElementById("preview-img").src = p.image_url;
+    document.getElementById("preview-img").style.display = "block";
+    document.getElementById("form-title").innerText = "✏️ Modifier";
     document.getElementById("btn-submit").innerText = "Mettre à jour";
     document.getElementById("btn-cancel").style.display = "block";
     window.scrollTo(0, 0);
@@ -116,6 +112,7 @@ function editProduct(id) {
 function cancelEdit() {
     document.getElementById("product-form").reset();
     document.getElementById("p-id").value = "";
+    document.getElementById("preview-img").style.display = "none";
     document.getElementById("form-title").innerText = "➕ Ajouter un produit";
     document.getElementById("btn-submit").innerText = "💾 Enregistrer";
     document.getElementById("btn-cancel").style.display = "none";
@@ -125,113 +122,58 @@ async function deleteProduct(id) {
     if (confirm("Supprimer ce produit ?")) { await fetch(`/api?id=${id}`, { method: 'DELETE' }); loadProducts(); loadStats(); }
 }
 
-// --- VOYAGES ---
-async function loadVoyages() {
+// COLIS
+async function loadColis() {
     const res = await fetch('/api/voyages');
     const voyages = await res.json();
-    const list = document.getElementById("voyage-list");
+    const list = document.getElementById("colis-list");
     list.innerHTML = "";
     voyages.forEach(v => {
-        const priceDisplay = v.devise === 'USD' ? `$ ${v.prix}` : `${v.prix} FC`;
-        const icon = v.type_voyage === 'vol' ? '✈️' : v.type_voyage === 'maritime' ? '🚢' : '🚌';
-        list.innerHTML += `<tr><td>${icon} ${v.type_voyage}</td><td>${v.destination}</td><td>${v.date_depart}</td><td>${priceDisplay}</td><td><button class="btn-danger" onclick="deleteVoyage(${v.id})">X</button></td></tr>`;
+        const priceDisplay = v.devise === 'USD' ? `$ ${v.prix}/kg` : `${v.prix} FC/kg`;
+        const icon = v.type_voyage === 'aerien' ? '✈️' : v.type_voyage === 'maritime' ? '🚢' : '🚌';
+        list.innerHTML += `<tr><td>${icon} ${v.type_voyage}</td><td>${v.destination}</td><td>${v.date_depart}</td><td>${priceDisplay}</td><td><button class="btn-danger" onclick="deleteColis(${v.id})">X</button></td></tr>`;
     });
 }
 
-document.getElementById("voyage-form").addEventListener("submit", async (e) => {
+document.getElementById("colis-form").addEventListener("submit", async (e) => {
     e.preventDefault();
-    const newVoyage = {
-        type: document.getElementById("v-type").value,
-        destination: document.getElementById("v-destination").value,
-        date: document.getElementById("v-date").value,
-        price: document.getElementById("v-price").value,
-        currency: document.getElementById("v-currency").value,
-        desc: document.getElementById("v-desc").value,
-        img: document.getElementById("v-img").value
+    const newColis = {
+        type: document.getElementById("c-type").value,
+        destination: document.getElementById("c-dest").value,
+        date: document.getElementById("c-date").value,
+        price: document.getElementById("c-price").value,
+        currency: document.getElementById("c-currency").value,
+        desc: document.getElementById("c-desc").value,
+        img: document.getElementById("c-img").value
     };
-    await fetch('/api/voyages', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(newVoyage) });
-    document.getElementById("voyage-form").reset();
-    loadVoyages();
+    await fetch('/api/voyages', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(newColis) });
+    document.getElementById("colis-form").reset();
+    loadColis();
+    alert("✅ Programme ajouté !");
 });
 
-async function deleteVoyage(id) {
-    if (confirm("Supprimer ce voyage ?")) { await fetch(`/api/voyages?id=${id}`, { method: 'DELETE' }); loadVoyages(); }
-}
-// --- AGENCE DE COLIS ---
-async function loadVoyages() {
-    try {
-        const res = await fetch('/api/voyages');
-        const voyages = await res.json();
-        const list = document.getElementById("voyage-list");
-        if(!list) return;
-        list.innerHTML = "";
-        voyages.forEach(v => {
-            const priceDisplay = v.devise === 'USD' ? `$ ${v.prix} / kg` : `${v.prix} FC / kg`;
-            const icon = v.type_voyage === 'aerien' ? '✈️' : v.type_voyage === 'maritime' ? '🚢' : '🚌';
-            list.innerHTML += `<tr><td>${icon} ${v.type_voyage}</td><td>${v.destination}</td><td>${v.date_depart}</td><td>${priceDisplay}</td><td><button class="btn-danger" onclick="deleteVoyage(${v.id})">X</button></td></tr>`;
-        });
-    } catch(e) {}
+async function deleteColis(id) {
+    if (confirm("Supprimer ?")) { await fetch(`/api/voyages?id=${id}`, { method: 'DELETE' }); loadColis(); }
 }
 
-const formVoyage = document.getElementById("voyage-form");
-if(formVoyage) {
-    formVoyage.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const newVoyage = {
-            type: document.getElementById("v-type").value,
-            destination: document.getElementById("v-destination").value,
-            date: document.getElementById("v-date").value,
-            price: document.getElementById("v-price").value,
-            currency: document.getElementById("v-currency").value,
-            desc: document.getElementById("v-desc").value,
-            img: document.getElementById("v-img").value
-        };
-        await fetch('/api/voyages', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(newVoyage) });
-        formVoyage.reset();
-        loadVoyages();
-        alert("✅ Programme de colis ajouté !");
-    });
-}
-
-async function deleteVoyage(id) {
-    if (confirm("Supprimer cet envoi ?")) { 
-        await fetch(`/api/voyages?id=${id}`, { method: 'DELETE' }); 
-        loadVoyages(); 
-    }
-}
-// --- AVIS ---
+// AVIS
 async function loadAvis() {
     const res = await fetch('/api/avis');
     const avis = await res.json();
     const list = document.getElementById("avis-list");
     list.innerHTML = "";
-    if(avis.length === 0) { list.innerHTML = "<tr><td colspan='5' style='text-align:center;'>Aucun avis pour le moment.</td></tr>"; return; }
-    
     avis.forEach(a => {
-        const statut = a.approuve ? "<span style='color:green;font-weight:bold;'>✅ Publié</span>" : "<span style='color:orange;font-weight:bold;'>⏳ En attente</span>";
-        const btnPublier = a.approuve ? "" : `<button onclick="approveAvis(${a.id})" style="background:#10b981; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer; margin-right:5px;">Publier</button>`;
-        
-        list.innerHTML += `<tr>
-            <td>${a.nom_client}</td>
-            <td>${'⭐'.repeat(a.note)}</td>
-            <td>${a.commentaire}</td>
-            <td>${statut}</td>
-            <td>${btnPublier}<button class="btn-danger" onclick="deleteAvis(${a.id})">X</button></td>
-        </tr>`;
+        const statut = a.approuve ? "<span style='color:green;'>✅ Publié</span>" : "<span style='color:orange;'>⏳ En attente</span>";
+        const btn = a.approuve ? "" : `<button onclick="approveAvis(${a.id})" style="background:#10b981; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer; margin-right:5px;">Publier</button>`;
+        list.innerHTML += `<tr><td>${a.nom_client}</td><td>${'⭐'.repeat(a.note)}</td><td>${a.commentaire}</td><td>${statut}</td><td>${btn}<button class="btn-danger" onclick="deleteAvis(${a.id})">X</button></td></tr>`;
     });
 }
 
 async function approveAvis(id) {
     await fetch('/api/avis', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: id }) });
-    loadAvis();
-    loadStats();
+    loadAvis(); loadStats();
 }
 
 async function deleteAvis(id) {
-    if (confirm("Supprimer cet avis ?")) { await fetch(`/api/avis?id=${id}`, { method: 'DELETE' }); loadAvis(); loadStats(); }
+    if (confirm("Supprimer ?")) { await fetch(`/api/avis?id=${id}`, { method: 'DELETE' }); loadAvis(); loadStats(); }
 }
-
-
-
-
-

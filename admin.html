@@ -12,7 +12,7 @@
         <div class="admin-panel" style="width:100%; max-width:400px; text-align:center;">
             <h2 style="border:none;">🔒 Accès Gérant</h2>
             <form id="login-form" style="display:flex; flex-direction:column; gap:15px; margin-top:20px;">
-                <input type="password" id="admin-password" placeholder="Mot de passe" style="padding:12px; border:1px solid #ccc; border-radius:8px;" required>
+                <input type="password" id="admin-password" placeholder="Mot de passe (bitha2025)" style="padding:12px; border:1px solid #ccc; border-radius:8px;" required>
                 <button type="submit" style="padding:12px; background:#1e3a8a; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">Se connecter</button>
             </form>
         </div>
@@ -23,8 +23,8 @@
         <aside class="admin-sidebar">
             <div class="brand">SHOP <span>BITHACOM</span></div>
             <a href="#" onclick="showTab('produits')" id="tab-produits" class="active">📦 Produits</a>
-            <a href="#" onclick="showTab(''avis'')" id="tab-avis">⭐ Avis Clients</a>
-            <a href="#" onclick="showTab(''voyages'')" id="tab-voyages">✈️ Voyages</a>
+            <a href="#" onclick="showTab('colis')" id="tab-colis">✈️ Agence de Colis</a>
+            <a href="#" onclick="showTab('avis')" id="tab-avis">⭐ Avis Clients</a>
             <a href="index.html" target="_blank">🌐 Voir le site</a>
             <a href="#" onclick="logout()">🚪 Déconnexion</a>
         </aside>
@@ -34,15 +34,11 @@
             <div class="admin-stats">
                 <div class="stat-card">
                     <h3>Produits en ligne</h3>
-                    <p id="stat-total" style="color: #1e3a8a;">0</p>
+                    <p id="stat-total">0</p>
                 </div>
                 <div class="stat-card" style="border-left-color: #f59e0b;">
                     <h3>Avis en attente</h3>
-                    <p id="stat-avis-attente" style="color: #f59e0b;">0</p>
-                </div>
-                <div class="stat-card" style="border-left-color: #10b981;">
-                    <h3>Total Avis clients</h3>
-                    <p id="stat-avis-total" style="color: #10b981;">0</p>
+                    <p id="stat-avis-attente">0</p>
                 </div>
             </div>
 
@@ -67,14 +63,13 @@
                             <option value="promotion">Promotion</option>
                             <option value="best-seller">Meilleure vente</option>
                         </select>
-                        <input type="url" id="p-img" placeholder="Lien de l'image (Postimages)" class="full-width" required>
+                        <input type="url" id="p-img" placeholder="Lien de l'image" class="full-width" required>
                         <div class="full-width" style="margin-top: 10px;">
-                            <label style="font-size:14px; color:#64748b; margin-bottom:5px; display:block;">Aperçu de l'image :</label>
                             <img id="preview-img" src="" style="max-width: 100%; height: 150px; object-fit: cover; border-radius: 8px; display: none; border: 2px dashed #cbd5e1;">
                         </div>
                         <textarea id="p-desc" placeholder="Description (Optionnel)" class="full-width" rows="2"></textarea>
                         <button type="submit" id="btn-submit" class="full-width" style="background:#10b981;">💾 Enregistrer</button>
-                        <button type="button" id="btn-cancel" class="full-width" onclick="cancelEdit()" style="background:#ef4444; display:none;">Annuler la modification</button>
+                        <button type="button" id="btn-cancel" class="full-width" onclick="cancelEdit()" style="background:#ef4444; display:none;">Annuler</button>
                     </form>
                 </div>
                 <div class="admin-panel">
@@ -83,101 +78,41 @@
                 </div>
             </div>
 
-                        <!-- SECTION VOYAGES -->
-            <div id="section-voyages" style="display:none;">
-                <h1>Gestion des Voyages (Agence)</h1>
+            <!-- SECTION COLIS -->
+            <div id="section-colis" style="display:none;">
+                <h1>Gestion de l'Agence de Colis</h1>
                 <div class="admin-panel">
-                    <h2>➕ Ajouter un programme de voyage</h2>
-                    <form class="admin-form" id="voyage-form">
-                        <select id="v-type" class="full-width" style="padding:12px; border:1px solid #cbd5e1; border-radius:8px;" required>
-                            <option value="vol">✈️ Vol Aérien</option>
+                    <h2>➕ Ajouter un programme</h2>
+                    <form class="admin-form" id="colis-form">
+                        <select id="c-type" class="full-width" style="padding:12px; border:1px solid #cbd5e1; border-radius:8px;" required>
+                            <option value="aerien">✈️ Aérien</option>
                             <option value="maritime">🚢 Maritime</option>
                             <option value="terrestre">🚌 Terrestre</option>
                         </select>
-                        <input type="text" id="v-destination" placeholder="Destination (ex: Kinshasa - Paris)" class="full-width" required>
-                        <input type="text" id="v-date" placeholder="Date de départ (ex: 15 Nov 2026)" class="full-width" required>
+                        <input type="text" id="c-dest" placeholder="Destination (ex: Kinshasa - Paris)" class="full-width" required>
+                        <input type="text" id="c-date" placeholder="Date (ex: 15 Nov)" class="full-width" required>
                         <div style="display:flex; gap:10px;">
-                            <input type="text" id="v-price" placeholder="Prix" style="flex:2;" required>
-                            <select id="v-currency" style="flex:1; padding:12px; border:1px solid #cbd5e1; border-radius:8px;">
+                            <input type="text" id="c-price" placeholder="Prix/kg" style="flex:2;" required>
+                            <select id="c-currency" style="flex:1; padding:12px; border:1px solid #cbd5e1; border-radius:8px;">
                                 <option value="USD">$ USD</option>
                                 <option value="FC">FC</option>
                             </select>
                         </div>
-                        <input type="url" id="v-img" placeholder="Lien de l'image (ex: avion)" class="full-width" required>
-                        <textarea id="v-desc" placeholder="Description (ex: Vol direct, bagage inclus)" class="full-width" rows="2"></textarea>
+                        <input type="url" id="c-img" placeholder="Lien image" class="full-width" required>
+                        <textarea id="c-desc" placeholder="Description (ex: Max 30kg)" class="full-width" rows="2"></textarea>
                         <button type="submit" class="full-width" style="background:#3b82f6;">💾 Enregistrer</button>
                     </form>
                 </div>
                 <div class="admin-panel">
-                    <h2>✈️ Liste des voyages</h2>
-                    <table class="admin-table"><thead><tr><th>Type</th><th>Destination</th><th>Date</th><th>Prix</th><th>Action</th></tr></thead><tbody id="voyage-list"></tbody></table>
+                    <h2>📦 Liste des envois</h2>
+                    <table class="admin-table"><thead><tr><th>Type</th><th>Destination</th><th>Date</th><th>Prix/kg</th><th>Action</th></tr></thead><tbody id="colis-list"></tbody></table>
                 </div>
             </div>
-            <!-- SECTION AGENCE DE COLIS -->
-            <div id="section-voyages" style="display:none;">
-                <h1>Gestion de l'Agence de Colis</h1>
-                <div class="admin-panel">
-                    <h2>➕ Ajouter un programme d'envoi de colis</h2>
-                    <form class="admin-form" id="voyage-form">
-                        <select id="v-type" class="full-width" style="padding:12px; border:1px solid #cbd5e1; border-radius:8px;" required>
-                            <option value="aerien">✈️ Voie Aérienne</option>
-                            <option value="maritime">🚢 Voie Maritime</option>
-                            <option value="terrestre">🚌 Voie Terrestre</option>
-                        </select>
-                        <input type="text" id="v-destination" placeholder="Destination (ex: Kinshasa - Paris)" class="full-width" required>
-                        <input type="text" id="v-date" placeholder="Date d'envoi (ex: Départ le 15 Nov)" class="full-width" required>
-                        <div style="display:flex; gap:10px;">
-                            <input type="text" id="v-price" placeholder="Prix par kg" style="flex:2;" required>
-                            <select id="v-currency" style="flex:1; padding:12px; border:1px solid #cbd5e1; border-radius:8px;">
-                                <option value="USD">$ USD</option>
-                                <option value="FC">FC</option>
-                            </select>
-                        </div>
-                        <input type="url" id="v-img" placeholder="Lien de l'image (ex: colis, avion)" class="full-width" required>
-                        <textarea id="v-desc" placeholder="Description (ex: Colis acceptés jusqu'à 30kg)" class="full-width" rows="2"></textarea>
-                        <button type="submit" class="full-width" style="background:#3b82f6;">💾 Enregistrer</button>
-                    </form>
-                </div>
-                <div class="admin-panel">
-                    <h2>📦 Liste des envois programmés</h2>
-                    <table class="admin-table"><thead><tr><th>Type</th><th>Destination</th><th>Date d'envoi</th><th>Prix/kg</th><th>Action</th></tr></thead><tbody id="voyage-list"></tbody></table>
-                </div>
-            </div>
-            <!-- SECTION AGENCE DE COLIS -->
-            <div id="section-voyages" style="display:none;">
-                <h1>Gestion de l'Agence de Colis</h1>
-                <div class="admin-panel">
-                    <h2>➕ Ajouter un programme d'envoi de colis</h2>
-                    <form class="admin-form" id="voyage-form">
-                        <select id="v-type" class="full-width" style="padding:12px; border:1px solid #cbd5e1; border-radius:8px;" required>
-                            <option value="aerien">✈️ Voie Aérienne</option>
-                            <option value="maritime">🚢 Voie Maritime</option>
-                            <option value="terrestre">🚌 Voie Terrestre</option>
-                        </select>
-                        <input type="text" id="v-destination" placeholder="Destination (ex: Kinshasa - Paris)" class="full-width" required>
-                        <input type="text" id="v-date" placeholder="Date d'envoi (ex: Départ le 15 Nov)" class="full-width" required>
-                        <div style="display:flex; gap:10px;">
-                            <input type="text" id="v-price" placeholder="Prix par kg" style="flex:2;" required>
-                            <select id="v-currency" style="flex:1; padding:12px; border:1px solid #cbd5e1; border-radius:8px;">
-                                <option value="USD">$ USD</option>
-                                <option value="FC">FC</option>
-                            </select>
-                        </div>
-                        <input type="url" id="v-img" placeholder="Lien de l'image (ex: colis, avion)" class="full-width" required>
-                        <textarea id="v-desc" placeholder="Description (ex: Colis acceptés jusqu'à 30kg)" class="full-width" rows="2"></textarea>
-                        <button type="submit" class="full-width" style="background:#3b82f6;">💾 Enregistrer</button>
-                    </form>
-                </div>
-                <div class="admin-panel">
-                    <h2>📦 Liste des envois programmés</h2>
-                    <table class="admin-table"><thead><tr><th>Type</th><th>Destination</th><th>Date d'envoi</th><th>Prix/kg</th><th>Action</th></tr></thead><tbody id="voyage-list"></tbody></table>
-                </div>
-            </div>
-<!-- SECTION AVIS -->
+
+            <!-- SECTION AVIS -->
             <div id="section-avis" style="display:none;">
-                <h1>Gestion des Avis Clients</h1>
+                <h1>Gestion des Avis</h1>
                 <div class="admin-panel">
-                    <p style="color:#666; margin-bottom:20px;">Voici les avis laissés par les clients. Cliquez sur <b>"Publier"</b> pour les afficher sur l'accueil, ou <b>"Supprimer"</b> pour les rejeter.</p>
                     <table class="admin-table"><thead><tr><th>Client</th><th>Note</th><th>Commentaire</th><th>Statut</th><th>Action</th></tr></thead><tbody id="avis-list"></tbody></table>
                 </div>
             </div>
@@ -186,7 +121,3 @@
     <script src="js/admin.js"></script>
 </body>
 </html>
-
-
-
-
