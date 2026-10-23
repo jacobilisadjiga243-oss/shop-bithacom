@@ -28,6 +28,8 @@ function logout() { localStorage.removeItem("bitha_admin"); location.reload(); }
 // Navigation
 function showTab(tab) {
     document.getElementById('section-produits').style.display = tab === 'produits' ? 'block' : 'none';
+    document.getElementById('section-adresses').style.display = tab === 'adresses' ? 'block' : 'none';
+    document.getElementById('section-adresses').style.display = tab === 'adresses' ? 'block' : 'none';
     document.getElementById('section-colis').style.display = tab === 'colis' ? 'block' : 'none';
     document.getElementById('section-avis').style.display = tab === 'avis' ? 'block' : 'none';
     
@@ -36,6 +38,8 @@ function showTab(tab) {
     document.getElementById('tab-avis').classList.toggle('active', tab === 'avis');
     
     if(tab === 'colis') loadColis();
+    if(tab === 'adresses') loadAdresses();
+    if(tab === 'adresses') loadAdresses();
     if(tab === 'avis') loadAvis();
 }
 
@@ -177,3 +181,5 @@ async function approveAvis(id) {
 async function deleteAvis(id) {
     if (confirm("Supprimer ?")) { await fetch(`/api/avis?id=${id}`, { method: 'DELETE' }); loadAvis(); loadStats(); }
 }
+
+

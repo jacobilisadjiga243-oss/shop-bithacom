@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact - SHOP BITHACOM</title>
+    <title>Nos Adresses - SHOP BITHACOM</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -12,38 +12,53 @@
         <nav>
             <a href="index.html">Accueil</a>
             <a href="produits.html">Produits</a>
-            <a href="apropos.html">À propos</a>
+            <a href="voyages.html">Agence de Colis</a>
             <a href="contact.html">Contact</a>
         </nav>
     </header>
 
-    <div class="page-container">
-        <h2>Contactez-nous</h2>
-        <p style="text-align:center; margin-bottom: 30px;">Une question ? Une commande spéciale ? Écrivez-nous et nous vous répondrons dans les plus brefs délais.</p>
-        
-        <form class="contact-form" action="#" method="POST">
-            <input type="text" placeholder="Votre nom complet" required>
-            <input type="email" placeholder="Votre adresse email" required>
-            <input type="tel" placeholder="Votre numéro de téléphone" required>
-            <textarea placeholder="Votre message..." required></textarea>
-            <button type="submit">Envoyer le message</button>
-        </form>
+    <h1 class="page-title">Nos Adresses à Gbadolite</h1>
+    <p class="page-subtitle">Retrouvez-nous dans nos boutiques et notre agence</p>
 
-        <div class="info-contact">
-            <p>📞 <strong>Téléphone :</strong> +243 819 770 888</p>
-            <p>📧 <strong>Email :</strong> contact@bitha.com</p>
-            <p>📍 <strong>Adresse :</strong> Votre ville, RDC</p>
+    <div class="section-padding">
+        <div class="products-grid" id="adresses-container"></div>
+    </div>
+
+    <!-- CARTE GOOGLE MAPS -->
+    <div class="section-padding">
+        <div class="section-header"><h2>Nous trouver sur la carte</h2></div>
+        <div style="border-radius: 15px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+            <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.5!2d20.9!3d4.3!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sGbadolite!5e0!3m2!1sfr!2scd!4v1600000000000" 
+                width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy">
+            </iframe>
         </div>
     </div>
 
-    <footer>
-        <p><strong>SHOP BITHACOM</strong></p>
-        <p>📞 +243 819 770 888 | 📧 contact@bitha.com</p>
-        <p>&copy; 2026 BITHACOM. Tous droits réservés.</p>
+    <footer class="footer-pro">
+        <div class="footer-bottom"><p>&copy; 2026 SHOP BITHACOM.</p></div>
     </footer>
-<script src="js/script.js"></script>
+
+    <script>
+        fetch('/api/adresses')
+            .then(res => res.json())
+            .then(adresses => {
+                const container = document.getElementById('adresses-container');
+                if(adresses.length === 0) {
+                    container.innerHTML = "<p style='text-align:center; grid-column:1/-1;'>Aucune adresse disponible.</p>";
+                    return;
+                }
+                adresses.forEach(a => {
+                    const icon = a.type_lieu === 'Agence' ? '🏢' : a.type_lieu === 'Entrepôt' ? '📦' : '🏪';
+                    container.innerHTML += `
+                        <div class="product-card" style="padding: 20px; text-align: left;">
+                            <h3 style="color: #1e3a8a;">${icon} ${a.nom_lieu}</h3>
+                            <p style="font-size: 13px; color: #666; margin: 5px 0;"><b>${a.type_lieu}</b></p>
+                            <p style="font-size: 15px; color: #333;">📍 ${a.adresse}</p>
+                        </div>
+                    `;
+                });
+            });
+    </script>
 </body>
 </html>
-
-
-

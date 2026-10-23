@@ -24,7 +24,8 @@
             <div class="brand">SHOP <span>BITHACOM</span></div>
             <a href="#" onclick="showTab('produits')" id="tab-produits" class="active">📦 Produits</a>
             <a href="#" onclick="showTab('colis')" id="tab-colis">✈️ Agence de Colis</a>
-            <a href="#" onclick="showTab('avis')" id="tab-avis">⭐ Avis Clients</a>
+            <a href="#" onclick="showTab(''adresses'')" id="tab-adresses">📍 Adresses</a>
+            <a href="#" onclick="showTab(''avis'')" id="tab-avis">⭐ Avis Clients</a>
             <a href="index.html" target="_blank">🌐 Voir le site</a>
             <a href="#" onclick="logout()">🚪 Déconnexion</a>
         </aside>
@@ -109,7 +110,49 @@
                 </div>
             </div>
 
-            <!-- SECTION AVIS -->
+                        <!-- SECTION ADRESSES -->
+            <div id="section-adresses" style="display:none;">
+                <h1>Gestion des Adresses</h1>
+                <div class="admin-panel">
+                    <h2>➕ Ajouter une adresse</h2>
+                    <form class="admin-form" id="adresse-form">
+                        <input type="text" id="a-nom" placeholder="Nom du lieu (ex: Shop Bithacom 1)" class="full-width" required>
+                        <select id="a-type" class="full-width" style="padding:12px; border:1px solid #cbd5e1; border-radius:8px;">
+                            <option value="Boutique">Boutique</option>
+                            <option value="Agence">Agence</option>
+                            <option value="Entrepôt">Entrepôt</option>
+                        </select>
+                        <input type="text" id="a-adresse" placeholder="Adresse complète (ex: Rue Mbui Bloc B, Gbadolite)" class="full-width" required>
+                        <button type="submit" class="full-width" style="background:#f59e0b;">💾 Enregistrer</button>
+                    </form>
+                </div>
+                <div class="admin-panel">
+                    <h2>📍 Liste des adresses</h2>
+                    <table class="admin-table"><thead><tr><th>Nom</th><th>Type</th><th>Adresse</th><th>Action</th></tr></thead><tbody id="adresse-list"></tbody></table>
+                </div>
+            </div>
+            <!-- SECTION ADRESSES -->
+            <div id="section-adresses" style="display:none;">
+                <h1>Gestion des Adresses</h1>
+                <div class="admin-panel">
+                    <h2>➕ Ajouter une adresse</h2>
+                    <form class="admin-form" id="adresse-form">
+                        <input type="text" id="a-nom" placeholder="Nom du lieu (ex: Shop Bithacom 1)" class="full-width" required>
+                        <select id="a-type" class="full-width" style="padding:12px; border:1px solid #cbd5e1; border-radius:8px;">
+                            <option value="Boutique">Boutique</option>
+                            <option value="Agence">Agence</option>
+                            <option value="Entrepôt">Entrepôt</option>
+                        </select>
+                        <input type="text" id="a-adresse" placeholder="Adresse complète (ex: Rue Mbui Bloc B, Gbadolite)" class="full-width" required>
+                        <button type="submit" class="full-width" style="background:#f59e0b;">💾 Enregistrer</button>
+                    </form>
+                </div>
+                <div class="admin-panel">
+                    <h2>📍 Liste des adresses</h2>
+                    <table class="admin-table"><thead><tr><th>Nom</th><th>Type</th><th>Adresse</th><th>Action</th></tr></thead><tbody id="adresse-list"></tbody></table>
+                </div>
+            </div>
+<!-- SECTION AVIS -->
             <div id="section-avis" style="display:none;">
                 <h1>Gestion des Avis</h1>
                 <div class="admin-panel">
@@ -121,4 +164,6 @@
     <script src="js/admin.js"></script>
 </body>
 </html>
+
+
 
