@@ -41,9 +41,11 @@ export async function onRequest(context) {
                 return new Response(JSON.stringify(rows), { status: 200, headers: { 'Content-Type': 'application/json' } });
             } else if (request.method === 'POST') {
                 const body = await request.json();
+                // On force la note en nombre entier
+                const noteInt = parseInt(body.note) || 5;
                 const { rows } = await client.query(
                     'INSERT INTO avis_clients (nom_client, commentaire, note) VALUES ($1, $2, $3) RETURNING *',
-                    [body.nom, body.commentaire, parseInt(body.note)]
+                    [body.nom, body.commentaire, noteInt]
                 );
                 return new Response(JSON.stringify(rows[0]), { status: 201, headers: { 'Content-Type': 'application/json' } });
             } else if (request.method === 'PUT') {
@@ -60,9 +62,9 @@ export async function onRequest(context) {
         return new Response("Méthode non autorisée", { status: 405 });
 
     } catch (err) {
-        return new Response(JSON.stringify({ error: err.message }), { status: 500, headers: { 'Content-Type': 'application/json' } });
+        // On renvoie l'erreur exacte de Neon pour le debug
+        return new Response(JSON.stringify({ error: err.message, detail: err.detail }), { status: 500, headers: { 'Content-Type': 'application/json' } });
     } finally {
         await client.end();
     }
 }
-
