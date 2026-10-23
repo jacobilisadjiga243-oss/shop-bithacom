@@ -1,59 +1,60 @@
 ﻿const PASSWORD = "bitha2025";
-let products = [];
 
-// Connexion
+// 1. GESTION DE LA CONNEXION
 document.getElementById("login-form").addEventListener("submit", (e) => {
     e.preventDefault();
     if (document.getElementById("admin-password").value === PASSWORD) {
         localStorage.setItem("bitha_admin", "true");
         afficherDashboard();
-    } else { alert("Mot de passe incorrect !"); }
-});
-
-// Vérifier si déjà connecté
-document.addEventListener("DOMContentLoaded", () => {
-    if(localStorage.getItem("bitha_admin") === "true") {
-        afficherDashboard();
+    } else { 
+        alert("Mot de passe incorrect !"); 
     }
 });
+
+// Vérifier si on est déjà connecté
+if(localStorage.getItem("bitha_admin") === "true") {
+    afficherDashboard();
+}
 
 function afficherDashboard() {
     document.getElementById("login-screen").style.display = "none";
     document.getElementById("admin-dashboard").style.display = "flex";
-    loadStats(); loadProducts(); loadColis(); loadAdresses(); loadAvis();
+    loadStats(); loadProducts(); 
 }
 
-function logout() { localStorage.removeItem("bitha_admin"); location.reload(); }
+function logout() { 
+    localStorage.removeItem("bitha_admin"); 
+    location.reload(); 
+}
 
-// Navigation
+// 2. GESTION DES ONGLETS (NAVIGATION)
 function showTab(tab) {
-    // On cache toutes les sections
-    const sections = ['produits', 'colis', 'adresses', 'avis'];
-    sections.forEach(s => {
+    // Cacher toutes les sections
+    ['produits', 'colis', 'adresses', 'avis'].forEach(s => {
         const el = document.getElementById('section-' + s);
         if(el) el.style.display = 'none';
     });
 
-    // On affiche la bonne section
-    const activeSection = document.getElementById('section-' + tab);
-    if(activeSection) activeSection.style.display = 'block';
+    // Afficher la section demandée
+    const section = document.getElementById('section-' + tab);
+    if(section) section.style.display = 'block';
 
-    // On gère la couleur active du menu
-    sections.forEach(s => {
+    // Gérer le bouton actif
+    ['produits', 'colis', 'adresses', 'avis'].forEach(s => {
         const btn = document.getElementById('tab-' + s);
         if(btn) btn.classList.remove('active');
     });
     const activeBtn = document.getElementById('tab-' + tab);
     if(activeBtn) activeBtn.classList.add('active');
 
-    // On charge les données de la section
+    // Charger les données
+    if(tab === 'produits') loadProducts();
     if(tab === 'colis') loadColis();
     if(tab === 'adresses') loadAdresses();
     if(tab === 'avis') loadAvis();
-    if(tab === 'produits') loadProducts();
 }
 
-// Stats
+// 3. STATISTIQUES
 async function loadStats() {
     try {
         const res = await fetch('/api/stats');
@@ -63,7 +64,8 @@ async function loadStats() {
     } catch(e) {}
 }
 
-// PRODUITS
+// 4. PRODUITS
+let products = [];
 async function loadProducts() {
     const res = await fetch('/api');
     products = await res.json();
@@ -136,7 +138,7 @@ async function deleteProduct(id) {
     if (confirm("Supprimer ce produit ?")) { await fetch(`/api?id=${id}`, { method: 'DELETE' }); loadProducts(); loadStats(); }
 }
 
-// COLIS
+// 5. COLIS
 async function loadColis() {
     const res = await fetch('/api/voyages');
     const voyages = await res.json();
@@ -170,7 +172,40 @@ async function deleteColis(id) {
     if (confirm("Supprimer ?")) { await fetch(`/api/voyages?id=${id}`, { method: 'DELETE' }); loadColis(); }
 }
 
-// AVIS
+// 6. ADRESSES
+async function loadAdresses() {
+    try {
+        const res = await fetch('/api/adresses');
+        const adresses = await res.json();
+        const list = document.getElementById("adresse-list");
+        list.innerHTML = "";
+        adresses.forEach(a => {
+            list.innerHTML += `<tr><td>${a.nom_lieu}</td><td>${a.type_lieu}</td><td>${a.adresse}</td><td><button class="btn-danger" onclick="deleteAdresse(${a.id})">X</button></td></tr>`;
+        });
+    } catch(e) {}
+}
+
+const formAdresse = document.getElementById("adresse-form");
+if(formAdresse) {
+    formAdresse.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const newAdresse = {
+            nom: document.getElementById("a-nom").value,
+            type: document.getElementById("a-type").value,
+            adresse: document.getElementById("a-adresse").value
+        };
+        await fetch('/api/adresses', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(newAdresse) });
+        formAdresse.reset();
+        loadAdresses();
+        alert("✅ Adresse ajoutée !");
+    });
+}
+
+async function deleteAdresse(id) {
+    if (confirm("Supprimer cette adresse ?")) { await fetch(`/api/adresses?id=${id}`, { method: 'DELETE' }); loadAdresses(); }
+}
+
+// 7. AVIS
 async function loadAvis() {
     const res = await fetch('/api/avis');
     const avis = await res.json();
@@ -191,6 +226,3 @@ async function approveAvis(id) {
 async function deleteAvis(id) {
     if (confirm("Supprimer ?")) { await fetch(`/api/avis?id=${id}`, { method: 'DELETE' }); loadAvis(); loadStats(); }
 }
-
-
-
