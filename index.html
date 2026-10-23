@@ -106,7 +106,27 @@
     </a>
 
     <!-- FOOTER PRO -->
-        <!-- SECTION AVIS CLIENTS -->
+            <!-- FORMULAIRE AVIS CLIENT -->
+    <section class="section-padding" style="background: #f8fafc;">
+        <div class="section-header">
+            <h2>Laissez votre avis</h2>
+            <p>Votre opinion compte pour nous</p>
+        </div>
+        <form id="public-avis-form" style="max-width: 500px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px;">
+            <input type="text" id="pub-nom" placeholder="Votre nom" required style="padding:15px; border-radius:8px; border:1px solid #ccc;">
+            <select id="pub-note" style="padding:15px; border-radius:8px; border:1px solid #ccc;">
+                <option value="5">⭐⭐⭐⭐⭐ (Excellent)</option>
+                <option value="4">⭐⭐⭐⭐ (Très bien)</option>
+                <option value="3">⭐⭐⭐ (Bien)</option>
+                <option value="2">⭐⭐ (Moyen)</option>
+                <option value="1">⭐ (Mauvais)</option>
+            </select>
+            <textarea id="pub-comment" placeholder="Votre commentaire" required style="padding:15px; border-radius:8px; border:1px solid #ccc;" rows="3"></textarea>
+            <button type="submit" style="padding:15px; background:#1e3a8a; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">Envoyer mon avis</button>
+        </form>
+    </section>
+
+<!-- SECTION AVIS CLIENTS -->
     <section class="section-padding" style="background: #fff;">
         <div class="section-header">
             <h2>Ce que disent nos clients</h2>
@@ -158,7 +178,9 @@
             <p>&copy; 2026 SHOP BITHACOM. Tous droits réservés.</p>
         </div>
     </footer>
+    
     <script>
+        // 1. Affichage des avis approuvés
         fetch('/api/avis')
             .then(res => res.json())
             .then(avis => {
@@ -177,7 +199,25 @@
                     \;
                 });
             });
+
+        // 2. Envoi du formulaire
+        document.getElementById('public-avis-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const avis = {
+                nom: document.getElementById('pub-nom').value,
+                note: document.getElementById('pub-note').value,
+                commentaire: document.getElementById('pub-comment').value
+            };
+            const res = await fetch('/api/avis', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(avis) });
+            if(res.ok) {
+                alert("Merci ! Votre avis a été envoyé pour validation par l'équipe.");
+                e.target.reset();
+            } else {
+                alert("Erreur lors de l'envoi.");
+            }
+        });
     </script>
 </body>
 </html>
+
 
