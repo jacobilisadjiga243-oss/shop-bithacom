@@ -759,3 +759,62 @@ header.scrolled {
         width: 100% !important;
     }
 }
+
+/* ===== MENU WHATSAPP INTERACTIF ===== */
+.wa-menu-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+}
+.wa-menu-box {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    animation: popIn 0.3s ease;
+}
+@keyframes popIn {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+.wa-menu-box h3 {
+    color: #1e3a8a;
+    margin-bottom: 20px;
+    font-size: 22px;
+}
+.wa-menu-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 12px;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+    text-decoration: none;
+    color: white;
+}
+.wa-menu-btn:hover { transform: translateX(5px); }
+.wa-menu-btn.green { background: #25d366; }
+.wa-menu-btn.blue { background: #3b82f6; }
+.wa-menu-btn.orange { background: #f59e0b; }
+.wa-menu-close {
+    background: #e2e8f0;
+    color: #1e3a8a;
+    border: none;
+    padding: 10px 30px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px;
+}
