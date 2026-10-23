@@ -383,3 +383,118 @@ footer p { margin: 6px 0; }
     color: white;
     transform: translateY(-2px);
 }
+
+/* ===== ADMIN RESPONSIVE (MOBILE ANDROID / TABLETTE) ===== */
+@media (max-width: 768px) {
+    /* On transforme le menu latéral en barre horizontale en haut */
+    .admin-layout { 
+        flex-direction: column; 
+        min-height: 100vh;
+    }
+    .admin-sidebar { 
+        width: 100%; 
+        padding: 15px; 
+        display: flex; 
+        flex-wrap: wrap; 
+        justify-content: center;
+        gap: 5px;
+    }
+    .admin-sidebar .brand { 
+        width: 100%; 
+        text-align: center; 
+        margin-bottom: 15px; 
+        border-bottom: none; 
+        padding-bottom: 0;
+    }
+    .admin-sidebar a { 
+        padding: 10px 15px; 
+        font-size: 14px; 
+        border-radius: 8px; 
+        text-align: center;
+        border-left: none !important;
+    }
+    .admin-sidebar a.active {
+        background: #3b82f6;
+        border-bottom: 3px solid #fbbf24;
+    }
+
+    /* La zone principale prend toute la largeur */
+    .admin-main { 
+        padding: 20px 15px; 
+    }
+    .admin-main h1 { 
+        font-size: 24px; 
+        text-align: center;
+        margin-bottom: 15px;
+    }
+
+    /* Les cartes statistiques s'empilent proprement */
+    .admin-stats { 
+        grid-template-columns: 1fr; 
+        gap: 15px;
+    }
+
+    /* Le formulaire passe sur une seule colonne (plus facile au doigt) */
+    .admin-form { 
+        grid-template-columns: 1fr; 
+    }
+    .admin-form .full-width { 
+        grid-column: span 1; 
+    }
+    .admin-form input, .admin-form select, .admin-form textarea, .admin-form button {
+        padding: 15px; /* Champs plus gros pour le tactile */
+        font-size: 16px; /* Évite le zoom automatique sur iPhone/Android */
+    }
+
+    /* LE TABLEAU SE TRANSFORME EN CARTES SUR MOBILE */
+    .admin-table, .admin-table thead, .admin-table tbody, .admin-table th, .admin-table td, .admin-table tr { 
+        display: block; 
+    }
+    .admin-table thead tr { 
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+    .admin-table tr { 
+        border: 1px solid #e2e8f0; 
+        border-radius: 10px;
+        margin-bottom: 15px;
+        padding: 10px;
+        background: #f8fafc;
+    }
+    .admin-table td { 
+        border: none;
+        position: relative;
+        padding: 10px 10px 10px 45%; /* On laisse de la place pour le label */
+        text-align: right;
+        border-bottom: 1px solid #e2e8f0;
+    }
+    .admin-table td:last-child {
+        border-bottom: none;
+    }
+    /* On ajoute les titres (Image, Nom, Prix) à gauche de chaque donnée */
+    .admin-table td:before { 
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        width: 40%; 
+        padding-right: 10px; 
+        white-space: nowrap;
+        text-align: left;
+        font-weight: bold;
+        color: #475569;
+    }
+    .admin-table td:nth-of-type(1):before { content: "Image"; }
+    .admin-table td:nth-of-type(2):before { content: "Produit"; }
+    .admin-table td:nth-of-type(3):before { content: "Prix"; }
+    .admin-table td:nth-of-type(4):before { content: "Action"; }
+    
+    .admin-table td img {
+        width: 80px;
+        height: 80px;
+    }
+    .admin-table .btn-danger {
+        padding: 10px 15px;
+        font-size: 14px;
+    }
+}
