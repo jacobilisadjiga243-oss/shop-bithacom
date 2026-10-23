@@ -1,17 +1,14 @@
 ﻿const PASSWORD = "bitha2025";
 
-// 1. GESTION DE LA CONNEXION
 document.getElementById("login-form").addEventListener("submit", (e) => {
     e.preventDefault();
     if (document.getElementById("admin-password").value === PASSWORD) {
         localStorage.setItem("bitha_admin", "true");
         afficherDashboard();
-    } else { 
-        alert("Mot de passe incorrect !"); 
-    }
+    } else { alert("Mot de passe incorrect !"); }
 });
 
-// Vérifier si on est déjà connecté
+// Vérifier si on est déjà connecté au chargement de la page
 if(localStorage.getItem("bitha_admin") === "true") {
     afficherDashboard();
 }
@@ -22,24 +19,17 @@ function afficherDashboard() {
     loadStats(); loadProducts(); 
 }
 
-function logout() { 
-    localStorage.removeItem("bitha_admin"); 
-    location.reload(); 
-}
+function logout() { localStorage.removeItem("bitha_admin"); location.reload(); }
 
-// 2. GESTION DES ONGLETS (NAVIGATION)
+// GESTION DES ONGLETS
 function showTab(tab) {
-    // Cacher toutes les sections
     ['produits', 'colis', 'adresses', 'avis'].forEach(s => {
         const el = document.getElementById('section-' + s);
         if(el) el.style.display = 'none';
     });
-
-    // Afficher la section demandée
     const section = document.getElementById('section-' + tab);
     if(section) section.style.display = 'block';
 
-    // Gérer le bouton actif
     ['produits', 'colis', 'adresses', 'avis'].forEach(s => {
         const btn = document.getElementById('tab-' + s);
         if(btn) btn.classList.remove('active');
@@ -47,14 +37,13 @@ function showTab(tab) {
     const activeBtn = document.getElementById('tab-' + tab);
     if(activeBtn) activeBtn.classList.add('active');
 
-    // Charger les données
     if(tab === 'produits') loadProducts();
     if(tab === 'colis') loadColis();
     if(tab === 'adresses') loadAdresses();
     if(tab === 'avis') loadAvis();
 }
 
-// 3. STATISTIQUES
+// STATISTIQUES
 async function loadStats() {
     try {
         const res = await fetch('/api/stats');
@@ -64,7 +53,7 @@ async function loadStats() {
     } catch(e) {}
 }
 
-// 4. PRODUITS
+// PRODUITS
 let products = [];
 async function loadProducts() {
     const res = await fetch('/api');
@@ -138,7 +127,7 @@ async function deleteProduct(id) {
     if (confirm("Supprimer ce produit ?")) { await fetch(`/api?id=${id}`, { method: 'DELETE' }); loadProducts(); loadStats(); }
 }
 
-// 5. COLIS
+// COLIS
 async function loadColis() {
     const res = await fetch('/api/voyages');
     const voyages = await res.json();
@@ -172,17 +161,15 @@ async function deleteColis(id) {
     if (confirm("Supprimer ?")) { await fetch(`/api/voyages?id=${id}`, { method: 'DELETE' }); loadColis(); }
 }
 
-// 6. ADRESSES
+// ADRESSES
 async function loadAdresses() {
-    try {
-        const res = await fetch('/api/adresses');
-        const adresses = await res.json();
-        const list = document.getElementById("adresse-list");
-        list.innerHTML = "";
-        adresses.forEach(a => {
-            list.innerHTML += `<tr><td>${a.nom_lieu}</td><td>${a.type_lieu}</td><td>${a.adresse}</td><td><button class="btn-danger" onclick="deleteAdresse(${a.id})">X</button></td></tr>`;
-        });
-    } catch(e) {}
+    const res = await fetch('/api/adresses');
+    const adresses = await res.json();
+    const list = document.getElementById("adresse-list");
+    list.innerHTML = "";
+    adresses.forEach(a => {
+        list.innerHTML += `<tr><td>${a.nom_lieu}</td><td>${a.type_lieu}</td><td>${a.adresse}</td><td><button class="btn-danger" onclick="deleteAdresse(${a.id})">X</button></td></tr>`;
+    });
 }
 
 const formAdresse = document.getElementById("adresse-form");
@@ -205,7 +192,7 @@ async function deleteAdresse(id) {
     if (confirm("Supprimer cette adresse ?")) { await fetch(`/api/adresses?id=${id}`, { method: 'DELETE' }); loadAdresses(); }
 }
 
-// 7. AVIS
+// AVIS
 async function loadAvis() {
     const res = await fetch('/api/avis');
     const avis = await res.json();

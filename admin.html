@@ -15,7 +15,7 @@
                 Accès Gérant
             </h2>
             <form id="login-form" style="display:flex; flex-direction:column; gap:15px; margin-top:20px;">
-                <input type="password" id="admin-password" placeholder="Mot de passe (bitha2025)" style="padding:12px; border:1px solid #ccc; border-radius:8px;" required>
+                <input type="password" id="admin-password" placeholder="Mot de passe" style="padding:12px; border:1px solid #ccc; border-radius:8px;" required>
                 <button type="submit" style="padding:12px; background:#1e3a8a; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">Se connecter</button>
             </form>
         </div>
@@ -33,8 +33,14 @@
                 <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
                 Agence de Colis
             </a>
-            <a href="#" onclick="showTab(''adresses'')" id="tab-adresses">📍 Adresses</a>
-            <a href="#" onclick="showTab(''avis'')" id="tab-avis">⭐ Avis Clients</a>
+            <a href="#" onclick="showTab('adresses')" id="tab-adresses" style="display:flex; align-items:center; gap:10px;">
+                <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                Adresses
+            </a>
+            <a href="#" onclick="showTab('avis')" id="tab-avis" style="display:flex; align-items:center; gap:10px;">
+                <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                Avis Clients
+            </a>
             <a href="index.html" target="_blank" style="display:flex; align-items:center; gap:10px;">
                 <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
                 Voir le site
@@ -46,7 +52,6 @@
         </aside>
 
         <main class="admin-main">
-            <!-- STATISTIQUES -->
             <div class="admin-stats">
                 <div class="stat-card">
                     <h3 style="display:flex; align-items:center; gap:8px;"><svg width="16" height="16" fill="#3b82f6" viewBox="0 0 24 24"><path d="M20 2H4c-1 0-2 .9-2 2v3.01c0 .72.43 1.34 1 1.69V20c0 1.1 1.1 2 2 2h14c.9 0 2-.9 2-2V8.7c.57-.35 1-.97 1-1.69V4c0-1.1-1-2-2-2zm-5 12H9v-2h6v2zm5-7H4V4h16v3z"/></svg> Produits en ligne</h3>
@@ -62,7 +67,7 @@
             <div id="section-produits">
                 <h1>Gestion des Produits</h1>
                 <div class="admin-panel">
-                    <h2 id="form-title"><svg width="20" height="20" fill="#10b981" viewBox="0 0 24 24" style="vertical-align:middle; margin-right:5px;"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg> Ajouter un produit</h2>
+                    <h2 id="form-title">➕ Ajouter un produit</h2>
                     <form class="admin-form" id="product-form">
                         <input type="hidden" id="p-id">
                         <input type="text" id="p-name" placeholder="Nom du produit" required>
@@ -79,7 +84,7 @@
                             <option value="promotion">Promotion</option>
                             <option value="best-seller">Meilleure vente</option>
                         </select>
-                        <input type="url" id="p-img" placeholder="Lien de l'image" class="full-width" required>
+                        <input type="url" id="p-img" placeholder="Lien de l'image" class="full-width">
                         <div class="full-width" style="margin-top: 10px;">
                             <img id="preview-img" src="" style="max-width: 100%; height: 150px; object-fit: cover; border-radius: 8px; display: none; border: 2px dashed #cbd5e1;">
                         </div>
@@ -89,7 +94,7 @@
                     </form>
                 </div>
                 <div class="admin-panel">
-                    <h2><svg width="20" height="20" fill="#3b82f6" viewBox="0 0 24 24" style="vertical-align:middle; margin-right:5px;"><path d="M20 2H4c-1 0-2 .9-2 2v3.01c0 .72.43 1.34 1 1.69V20c0 1.1 1.1 2 2 2h14c.9 0 2-.9 2-2V8.7c.57-.35 1-.97 1-1.69V4c0-1.1-1-2-2-2zm-5 12H9v-2h6v2zm5-7H4V4h16v3z"/></svg> Liste des produits</h2>
+                    <h2>📦 Liste des produits</h2>
                     <table class="admin-table"><thead><tr><th>Image</th><th>Nom</th><th>Prix</th><th>Catégorie</th><th>Action</th></tr></thead><tbody id="product-list"></tbody></table>
                 </div>
             </div>
@@ -125,27 +130,6 @@
                 </div>
             </div>
 
-                        <!-- SECTION ADRESSES -->
-            <div id="section-adresses" style="display:none;">
-                <h1>Gestion des Adresses</h1>
-                <div class="admin-panel">
-                    <h2>➕ Ajouter une adresse</h2>
-                    <form class="admin-form" id="adresse-form">
-                        <input type="text" id="a-nom" placeholder="Nom du lieu (ex: Shop Bithacom 1)" class="full-width" required>
-                        <select id="a-type" class="full-width" style="padding:12px; border:1px solid #cbd5e1; border-radius:8px;">
-                            <option value="Boutique">Boutique</option>
-                            <option value="Agence">Agence</option>
-                            <option value="Entrepôt">Entrepôt</option>
-                        </select>
-                        <input type="text" id="a-adresse" placeholder="Adresse complète (ex: Rue Mbui Bloc B, Gbadolite)" class="full-width" required>
-                        <button type="submit" class="full-width" style="background:#f59e0b;">💾 Enregistrer</button>
-                    </form>
-                </div>
-                <div class="admin-panel">
-                    <h2>📍 Liste des adresses</h2>
-                    <table class="admin-table"><thead><tr><th>Nom</th><th>Type</th><th>Adresse</th><th>Action</th></tr></thead><tbody id="adresse-list"></tbody></table>
-                </div>
-            </div>
             <!-- SECTION ADRESSES -->
             <div id="section-adresses" style="display:none;">
                 <h1>Gestion des Adresses</h1>
@@ -158,7 +142,7 @@
                             <option value="Agence">Agence</option>
                             <option value="Entrepôt">Entrepôt</option>
                         </select>
-                        <input type="text" id="a-adresse" placeholder="Adresse complète (ex: Rue Mbui Bloc B, Gbadolite)" class="full-width" required>
+                        <input type="text" id="a-adresse" placeholder="Adresse complète (ex: Rue Mbui Bloc B)" class="full-width" required>
                         <button type="submit" class="full-width" style="background:#f59e0b;">💾 Enregistrer</button>
                     </form>
                 </div>
@@ -167,7 +151,8 @@
                     <table class="admin-table"><thead><tr><th>Nom</th><th>Type</th><th>Adresse</th><th>Action</th></tr></thead><tbody id="adresse-list"></tbody></table>
                 </div>
             </div>
-<!-- SECTION AVIS -->
+
+            <!-- SECTION AVIS -->
             <div id="section-avis" style="display:none;">
                 <h1>Gestion des Avis</h1>
                 <div class="admin-panel">
@@ -179,7 +164,3 @@
     <script src="js/admin.js"></script>
 </body>
 </html>
-
-
-
-
