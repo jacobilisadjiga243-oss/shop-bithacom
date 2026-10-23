@@ -43,7 +43,7 @@ export async function onRequest(context) {
                 const body = await request.json();
                 const { rows } = await client.query(
                     'INSERT INTO avis_clients (nom_client, commentaire, note) VALUES ($1, $2, $3) RETURNING *',
-                    [body.nom, body.commentaire, body.note]
+                    [body.nom, body.commentaire, parseInt(body.note)]
                 );
                 return new Response(JSON.stringify(rows[0]), { status: 201, headers: { 'Content-Type': 'application/json' } });
             } else if (request.method === 'PUT') {
@@ -65,3 +65,4 @@ export async function onRequest(context) {
         await client.end();
     }
 }
+
