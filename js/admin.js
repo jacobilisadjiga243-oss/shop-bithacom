@@ -20,27 +20,37 @@ document.addEventListener("DOMContentLoaded", () => {
 function afficherDashboard() {
     document.getElementById("login-screen").style.display = "none";
     document.getElementById("admin-dashboard").style.display = "flex";
-    loadStats(); loadProducts(); loadColis(); loadAvis();
+    loadStats(); loadProducts(); loadColis(); loadAdresses(); loadAvis();
 }
 
 function logout() { localStorage.removeItem("bitha_admin"); location.reload(); }
 
 // Navigation
 function showTab(tab) {
-    document.getElementById('section-produits').style.display = tab === 'produits' ? 'block' : 'none';
-    document.getElementById('section-adresses').style.display = tab === 'adresses' ? 'block' : 'none';
-    document.getElementById('section-adresses').style.display = tab === 'adresses' ? 'block' : 'none';
-    document.getElementById('section-colis').style.display = tab === 'colis' ? 'block' : 'none';
-    document.getElementById('section-avis').style.display = tab === 'avis' ? 'block' : 'none';
-    
-    document.getElementById('tab-produits').classList.toggle('active', tab === 'produits');
-    document.getElementById('tab-colis').classList.toggle('active', tab === 'colis');
-    document.getElementById('tab-avis').classList.toggle('active', tab === 'avis');
-    
+    // On cache toutes les sections
+    const sections = ['produits', 'colis', 'adresses', 'avis'];
+    sections.forEach(s => {
+        const el = document.getElementById('section-' + s);
+        if(el) el.style.display = 'none';
+    });
+
+    // On affiche la bonne section
+    const activeSection = document.getElementById('section-' + tab);
+    if(activeSection) activeSection.style.display = 'block';
+
+    // On gère la couleur active du menu
+    sections.forEach(s => {
+        const btn = document.getElementById('tab-' + s);
+        if(btn) btn.classList.remove('active');
+    });
+    const activeBtn = document.getElementById('tab-' + tab);
+    if(activeBtn) activeBtn.classList.add('active');
+
+    // On charge les données de la section
     if(tab === 'colis') loadColis();
     if(tab === 'adresses') loadAdresses();
-    if(tab === 'adresses') loadAdresses();
     if(tab === 'avis') loadAvis();
+    if(tab === 'produits') loadProducts();
 }
 
 // Stats
@@ -181,5 +191,6 @@ async function approveAvis(id) {
 async function deleteAvis(id) {
     if (confirm("Supprimer ?")) { await fetch(`/api/avis?id=${id}`, { method: 'DELETE' }); loadAvis(); loadStats(); }
 }
+
 
 
