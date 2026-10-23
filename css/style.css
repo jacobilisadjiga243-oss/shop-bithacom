@@ -690,3 +690,41 @@ header.scrolled {
     padding-top: 15px;
     font-size: 12px;
 }
+
+/* ===== BOUTONS ADMIN COMPACTS ===== */
+.admin-form button[type="submit"],
+.admin-form button[type="button"] {
+    width: auto !important; /* Annule le full-width */
+    padding: 12px 30px !important;
+    font-size: 15px !important;
+    border-radius: 8px !important;
+    display: inline-block !important;
+    margin-top: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* Aligner le bouton à droite sur PC, centré sur mobile */
+.admin-form {
+    position: relative;
+}
+.admin-form button[type="submit"] {
+    margin-left: auto;
+    float: right;
+    clear: both;
+}
+
+/* Sur mobile, on le remet en pleine largeur pour le doigt */
+@media (max-width: 768px) {
+    .admin-form button[type="submit"] {
+        width: 100% !important;
+        float: none;
+    }
+}
+
+/* Icône SVG pour le bouton */
+.btn-save-icon {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 8px;
+    margin-top: -3px;
+}
