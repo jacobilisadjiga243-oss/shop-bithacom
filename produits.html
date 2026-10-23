@@ -18,126 +18,99 @@
     </header>
 
     <h1 class="page-title">Nos Produits</h1>
-    <p class="page-subtitle">Découvrez notre sélection de produits de qualité</p>
-
-    <div class="search-bar">
-        <input type="text" placeholder="Rechercher un produit...">
-        <button>Chercher</button>
-    </div>
+    <p class="page-subtitle">Sélectionnez vos articles et commandez via WhatsApp</p>
 
     <div class="filters">
-        <button class="active">Tous</button>
-        <button>Nouveautés</button>
-        <button>Promotions</button>
-        <button>Meilleures ventes</button>
+        <button class="active" onclick="filterProducts('all', this)">Tous</button>
+        <button onclick="filterProducts('nouveaute', this)">Nouveautés</button>
+        <button onclick="filterProducts('promotion', this)">Promotions</button>
+        <button onclick="filterProducts('best-seller', this)">Meilleures ventes</button>
     </div>
 
-    <div class="products-grid">
-        <!-- Produit 1 -->
-        <div class="product-card">
-            <img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=500" alt="MacBook Pro">
-            <div class="product-info">
-                <h3>MacBook Pro 14"</h3>
-                <p class="desc">Ordinateur portable Apple M2, 16Go RAM, 512Go SSD.</p>
-                <p class="price">1500 $</p>
-                <button class="btn-buy">Commander</button>
-            </div>
-        </div>
-        <!-- Produit 2 -->
-        <div class="product-card">
-            <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=500" alt="iPhone 15">
-            <div class="product-info">
-                <h3>iPhone 15 Pro</h3>
-                <p class="desc">Smartphone Apple 256Go, couleur Titane.</p>
-                <p class="price">1200 $</p>
-                <button class="btn-buy">Commander</button>
-            </div>
-        </div>
-        <!-- Produit 3 -->
-        <div class="product-card">
-            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500" alt="Montre connectée">
-            <div class="product-info">
-                <h3>Montre Connectée</h3>
-                <p class="desc">Apple Watch Series 9, GPS, écran Retina.</p>
-                <p class="price">350 $</p>
-                <button class="btn-buy">Commander</button>
-            </div>
-        </div>
-        <!-- Produit 4 -->
-        <div class="product-card">
-            <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=500" alt="Casque audio">
-            <div class="product-info">
-                <h3>Casque Audio Pro</h3>
-                <p class="desc">Casque Bluetooth à réduction de bruit.</p>
-                <p class="price">150 $</p>
-                <button class="btn-buy">Commander</button>
-            </div>
-        </div>
-    </div>
+    <div class="products-grid" id="products-container"></div>
 
-    <div class="promo-banner">
-        <h2>🚚 Livraison gratuite !</h2>
-        <p>Commandez maintenant au +243 819 770 888</p>
+    <!-- PANIER FLOTTANT -->
+    <div class="cart-float" onclick="commanderPanier()">
+        🛒
+        <span class="cart-count" id="cart-count">0</span>
     </div>
 
     <footer class="footer-pro">
-    <div class="footer-grid">
-        <div class="footer-col">
-            <div class="logo" style="margin-bottom:20px;">SHOP<span> BITHACOM</span></div>
-            <p>Votre boutique en ligne de confiance en RDC. Produits de qualité, livraison rapide et service client à votre écoute.</p>
-        </div>
-        <div class="footer-col">
-            <h4>Liens Rapides</h4>
-            <ul>
-                <li><a href="index.html">Accueil</a></li>
-                <li><a href="produits.html">Nos Produits</a></li>
-                <li><a href="apropos.html">À propos de nous</a></li>
-                <li><a href="contact.html">Contactez-nous</a></li>
-            </ul>
-        </div>
-        <div class="footer-col">
-            <h4>Contact</h4>
-            <p>📞 +243 819 770 888</p>
-            <p>📧 contact@bitha.com</p>
-            <p>📍 Kinshasa, RDC</p>
-        </div>
-        <div class="footer-col">
-            <h4>Suivez-nous</h4>
-<p>Restez informé de nos nouveautés et promotions.</p>
-<div class="social-links">
-    <a href="https://wa.me/243819770888" target="_blank" class="wa" title="WhatsApp">
-        <svg viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.76 14.15c-.24.68-1.4 1.31-1.93 1.39-.53.08-1.02.12-1.74-.11-.42-.13-.96-.31-1.65-.61-2.91-1.26-4.81-4.19-4.95-4.39-.14-.19-1.18-1.57-1.18-3 0-1.43.75-2.13 1.02-2.42.27-.29.59-.36.79-.36.19 0 .39.01.55.01.19 0 .43-.07.67.51.24.59.83 2.01.9 2.15.07.14.12.31.02.5-.1.19-.15.31-.29.48-.14.17-.29.37-.42.5-.14.14-.28.29-.12.57.16.28.72 1.19 1.55 1.93 1.07.95 1.97 1.25 2.25 1.39.28.14.44.12.6-.07.16-.19.68-.79.86-1.06.19-.27.37-.22.62-.13.24.09 1.55.73 1.82.86.27.14.45.2.51.31.07.11.07.64-.17 1.32z"/></svg>
-    </a>
-    <a href="https://facebook.com" target="_blank" class="fb" title="Facebook">
-        <svg viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c4.56-.93 8-4.96 8-9.95z"/></svg>
-    </a>
-    <a href="https://instagram.com" target="_blank" class="ig" title="Instagram">
-        <svg viewBox="0 0 24 24"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 3.25.15 4.77 1.69 4.92 4.92.06 1.27.07 1.65.07 4.85 0 3.2-.01 3.58-.07 4.85-.15 3.23-1.66 4.77-4.92 4.92-1.27.06-1.64.07-4.85.07-3.2 0-3.58-.01-4.85-.07-3.26-.15-4.77-1.7-4.92-4.92-.06-1.27-.07-1.64-.07-4.85 0-3.2.01-3.58.07-4.85C2.38 3.92 3.9 2.38 7.15 2.23 8.42 2.18 8.8 2.16 12 2.16zM12 0C8.74 0 8.33.01 7.05.07 2.7.27.27 2.69.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.2 4.36 2.62 6.78 6.98 6.98 1.28.06 1.69.07 4.95.07s3.67-.01 4.95-.07c4.35-.2 6.78-2.62 6.98-6.98.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95C23.73 2.7 21.3.27 16.95.07 15.67.01 15.26 0 12 0zm0 5.84A6.16 6.16 0 1 0 18.16 12 6.16 6.16 0 0 0 12 5.84zm0 10.16A4 4 0 1 1 16 12a4 4 0 0 1-4 4zm6.4-11.85a1.44 1.44 0 1 0 1.44 1.44 1.44 1.44 0 0 0-1.44-1.44z"/></svg>
-    </a>
-</div>
-            <p style="margin-top:15px;">
-                <a href="#" style="color:#fbbf24; font-size:20px; margin-right:15px;">📘</a>
-                <a href="#" style="color:#fbbf24; font-size:20px; margin-right:15px;">📸</a>
-                <a href="#" style="color:#fbbf24; font-size:20px;">💬</a>
-            </p>
-        </div>
-    </div>
-    <div class="footer-bottom">
-        <p>&copy; 2026 SHOP BITHACOM. Tous droits réservés.</p>
-    </div>
-</footer>
-    <script src="js/script.js"></script>
-<script src="js/produits.js"></script>
-    <!-- BOUTON WHATSAPP FLOTTANT -->
-    <a href="https://wa.me/243819770888?text=Bonjour%20SHOP%20BITHACOM%2C%20je%20suis%20int%C3%A9ress%C3%A9%20par%20vos%20produits." class="whatsapp-float" target="_blank" aria-label="Discuter sur WhatsApp">
-        <svg viewBox="0 0 24 24" width="35" height="35" fill="white"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.76 14.15c-.24.68-1.4 1.31-1.93 1.39-.53.08-1.02.12-1.74-.11-.42-.13-.96-.31-1.65-.61-2.91-1.26-4.81-4.19-4.95-4.39-.14-.19-1.18-1.57-1.18-3 0-1.43.75-2.13 1.02-2.42.27-.29.59-.36.79-.36.19 0 .39.01.55.01.19 0 .43-.07.67.51.24.59.83 2.01.9 2.15.07.14.12.31.02.5-.1.19-.15.31-.29.48-.14.17-.29.37-.42.5-.14.14-.28.29-.12.57.16.28.72 1.19 1.55 1.93 1.07.95 1.97 1.25 2.25 1.39.28.14.44.12.6-.07.16-.19.68-.79.86-1.06.19-.27.37-.22.62-.13.24.09 1.55.73 1.82.86.27.14.45.2.51.31.07.11.07.64-.17 1.32z"/></svg>
-    </a>
+        <div class="footer-bottom"><p>&copy; 2026 SHOP BITHACOM.</p></div>
+    </footer>
+
+    <script>
+        let allProducts = [];
+        let panier = JSON.parse(localStorage.getItem('panier_bitha')) || [];
+
+        // Charger les produits depuis l'API
+        fetch('/api')
+            .then(res => res.json())
+            .then(data => {
+                allProducts = data;
+                renderProducts(allProducts);
+                updateCartCount();
+            });
+
+        function renderProducts(products) {
+            const container = document.getElementById('products-container');
+            container.innerHTML = "";
+            if(products.length === 0) {
+                container.innerHTML = "<p style='text-align:center; grid-column:1/-1;'>Aucun produit dans cette catégorie.</p>";
+                return;
+            }
+            products.forEach(p => {
+                const priceDisplay = p.devise === 'USD' ? `$ ${p.prix}` : `${p.prix} FC`;
+                container.innerHTML += `
+                    <div class="product-card">
+                        <img src="${p.image_url}" alt="${p.nom}">
+                        <div class="product-info">
+                            <h3>${p.nom}</h3>
+                            <p class="desc">${p.description}</p>
+                            <p class="price">${priceDisplay}</p>
+                            <button class="btn-add-cart" onclick="ajouterAuPanier(${p.id}, '${p.nom}', '${priceDisplay}')">➕ Ajouter au panier</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function filterProducts(category, btn) {
+            document.querySelectorAll('.filters button').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            if(category === 'all') {
+                renderProducts(allProducts);
+            } else {
+                renderProducts(allProducts.filter(p => p.categorie === category));
+            }
+        }
+
+        function ajouterAuPanier(id, nom, prix) {
+            panier.push({ id, nom, prix });
+            localStorage.setItem('panier_bitha', JSON.stringify(panier));
+            updateCartCount();
+            alert(`✅ "${nom}" ajouté au panier !`);
+        }
+
+        function updateCartCount() {
+            document.getElementById('cart-count').innerText = panier.length;
+        }
+
+        function commanderPanier() {
+            if(panier.length === 0) {
+                alert("Votre panier est vide.");
+                return;
+            }
+            let message = "Bonjour SHOP BITHACOM, je souhaite commander :%0A";
+            panier.forEach((item, index) => {
+                message += `${index + 1}. ${item.nom} (${item.prix})%0A`;
+            });
+            window.open(`https://wa.me/243819770888?text=${message}`, "_blank");
+            // On vide le panier après commande
+            panier = [];
+            localStorage.setItem('panier_bitha', JSON.stringify(panier));
+            updateCartCount();
+        }
+    </script>
 </body>
 </html>
-
-
-
-
-
-
-
