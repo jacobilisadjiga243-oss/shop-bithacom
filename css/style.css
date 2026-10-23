@@ -306,3 +306,32 @@ footer p { margin: 6px 0; }
     font-family: 'Segoe UI', sans-serif;
     text-transform: uppercase;
 }
+
+/* ===== BANDEAU DÉFILANT MODERNE (CSS PUR) ===== */
+.slogan-ticker {
+    background: linear-gradient(90deg, #fbbf24, #f59e0b, #fbbf24);
+    color: #1e3a8a;
+    padding: 12px 0;
+    font-weight: 800;
+    font-size: 16px;
+    letter-spacing: 1px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+    overflow: hidden;
+    white-space: nowrap;
+}
+.slogan-track {
+    display: inline-block;
+    animation: scroll-slogan 25s linear infinite;
+}
+.slogan-track span {
+    padding-right: 50px; /* Espace entre les messages */
+    font-family: 'Segoe UI', sans-serif;
+    text-transform: uppercase;
+}
+.slogan-ticker:hover .slogan-track {
+    animation-play-state: paused; /* Met en pause au survol */
+}
+@keyframes scroll-slogan {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
