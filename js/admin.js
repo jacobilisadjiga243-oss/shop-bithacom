@@ -167,3 +167,4 @@ document.getElementById("adresse-form").addEventListener("submit", async (e) => 
     await fetch('/api/adresses', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(newAdresse) });
     document.getElementById("adresse-form").reset(); chargerAdresses(); alert("Adresse ajoutée !");
 });
+

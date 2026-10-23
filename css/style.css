@@ -728,3 +728,34 @@ header.scrolled {
     margin-right: 8px;
     margin-top: -3px;
 }
+
+/* ===== BOUTONS ADMIN CÔTE À CÔTE ===== */
+.admin-form .btn-group {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.admin-form .btn-group button {
+    width: auto !important;
+    flex: none;
+    padding: 12px 25px !important;
+    font-size: 15px !important;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-radius: 8px !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* Sur mobile, on les met l'un sous l'autre */
+@media (max-width: 768px) {
+    .admin-form .btn-group {
+        flex-direction: column-reverse;
+    }
+    .admin-form .btn-group button {
+        width: 100% !important;
+    }
+}
