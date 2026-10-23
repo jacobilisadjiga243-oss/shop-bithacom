@@ -91,31 +91,39 @@ async function deleteProduct(id) {
 
 // --- GESTION DES AVIS ---
 async function loadAvis() {
-    const res = await fetch('/api/avis?admin=true');
-    const avis = await res.json();
-    const list = document.getElementById("avis-list");
-    list.innerHTML = "";
-    if(avis.length === 0) { list.innerHTML = "<tr><td colspan='5' style='text-align:center;'>Aucun avis pour le moment.</td></tr>"; return; }
-    
-    avis.forEach(a => {
-        const statut = a.approuve ? "<span style='color:green;font-weight:bold;'>✅ Publié</span>" : "<span style='color:orange;font-weight:bold;'>⏳ En attente</span>";
-        const btnPublier = a.approuve ? "" : `<button onclick="approveAvis(${a.id})" style="background:#10b981; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer; margin-right:5px;">Publier</button>`;
+    try {
+        const res = await fetch('/api/avis-admin'); // Nouvelle route
+        const avis = await res.json();
+        const list = document.getElementById("avis-list");
+        list.innerHTML = "";
         
-        list.innerHTML += `<tr>
-            <td>${a.nom_client}</td>
-            <td>${'⭐'.repeat(a.note)}</td>
-            <td>${a.commentaire}</td>
-            <td>${statut}</td>
-            <td>${btnPublier}<button class="btn-danger" onclick="deleteAvis(${a.id})">X</button></td>
-        </tr>`;
-    });
+        if(avis.length === 0) { 
+            list.innerHTML = "<tr><td colspan='5' style='text-align:center;'>Aucun avis reçu pour le moment.</td></tr>"; 
+            return; 
+        }
+        
+        avis.forEach(a => {
+            const statut = a.approuve ? "<span style='color:green;font-weight:bold;'>✅ Publié</span>" : "<span style='color:orange;font-weight:bold;'>⏳ En attente</span>";
+            const btnPublier = a.approuve ? "" : `<button onclick="approveAvis(${a.id})" style="background:#10b981; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer; margin-right:5px;">Publier</button>`;
+            
+            list.innerHTML += `<tr>
+                <td>${a.nom_client}</td>
+                <td>${'⭐'.repeat(a.note)}</td>
+                <td>${a.commentaire}</td>
+                <td>${statut}</td>
+                <td>${btnPublier}<button class="btn-danger" onclick="deleteAvis(${a.id})">X</button></td>
+            </tr>`;
+        });
+    } catch (err) {
+        console.error("Erreur lors du chargement des avis", err);
+    }
 }
 
 async function approveAvis(id) {
-    await fetch('/api/avis', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: id }) });
+    await fetch('/api/avis-admin', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: id }) });
     loadAvis();
 }
 
 async function deleteAvis(id) {
-    if (confirm("Supprimer cet avis ?")) { await fetch(`/api/avis?id=${id}`, { method: 'DELETE' }); loadAvis(); }
+    if (confirm("Supprimer cet avis ?")) { await fetch(`/api/avis-admin?id=${id}`, { method: 'DELETE' }); loadAvis(); }
 }
