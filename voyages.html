@@ -18,7 +18,7 @@
     </header>
 
     <h1 class="page-title">Agence de Fret & Colis</h1>
-    <p class="page-subtitle">Envoyez et recevez vos colis par voie aérienne, maritime ou terrestre</p>
+    <p class="page-subtitle">Envoyez vos colis par voie aérienne, maritime ou terrestre</p>
 
     <div class="products-grid" id="voyages-container"></div>
 
@@ -31,6 +31,7 @@
             .then(res => res.json())
             .then(voyages => {
                 const container = document.getElementById('voyages-container');
+                if(!container) return;
                 if(voyages.length === 0) {
                     container.innerHTML = "<p style='text-align:center; grid-column:1/-1;'>Aucun programme d'envoi disponible pour le moment.</p>";
                     return;
