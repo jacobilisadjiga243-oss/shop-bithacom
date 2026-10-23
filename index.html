@@ -32,30 +32,7 @@
         </nav>
     </header>
 
-        <!-- SLIDER PREMIUM -->
-    <div class="slider-container" id="slider">
-        <div class="slide active" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=1600');">
-            <h1>Bienvenue chez SHOP BITHACOM</h1>
-            <p>Votre partenaire de confiance à Gbadolite</p>
-            <a href="produits.html" class="btn">Voir nos produits</a>
-        </div>
-        <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=1600');">
-            <h1>Livraison Rapide en RDC</h1>
-            <p>Commandez et recevez partout au pays</p>
-            <a href="produits.html" class="btn">Commander maintenant</a>
-        </div>
-        <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1600');">
-            <h1>Agence de Colis & Fret</h1>
-            <p>Envoyez vos colis par voie aérienne, maritime ou terrestre</p>
-            <a href="voyages.html" class="btn">Envoyer un colis</a>
-        </div>
         
-        <div class="slider-dots">
-            <span class="active" onclick="goToSlide(0)"></span>
-            <span onclick="goToSlide(1)"></span>
-            <span onclick="goToSlide(2)"></span>
-        </div>
-    </div>
 
     <section class="section-padding">
         <div class="section-header"><h2>Nos Catégories</h2><p>Trouvez ce que vous cherchez en un clic</p></div>
@@ -199,8 +176,43 @@
             }
         });
     </script>
-<script src="js/whatsapp.js"></script>`n</body>
+<script src="js/whatsapp.js"></script>`n    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.slider-dots span');
+        let slideTimer;
+
+        function showSlide(n) {
+            slides.forEach(s => s.classList.remove('active'));
+            dots.forEach(d => d.classList.remove('active'));
+            
+            currentSlide = (n + slides.length) % slides.length;
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active');
+        }
+
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+
+        function goToSlide(n) {
+            showSlide(n);
+            resetTimer();
+        }
+
+        function resetTimer() {
+            clearInterval(slideTimer);
+            slideTimer = setInterval(nextSlide, 5000); // Change toutes les 5 secondes
+        }
+
+        // Démarrer l'animation au chargement de la page
+        if(slides.length > 0) {
+            resetTimer();
+        }
+    </script>
+</body>
 </html>
+
 
 
 

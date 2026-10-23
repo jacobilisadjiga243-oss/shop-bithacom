@@ -7,19 +7,18 @@ from reportlab.lib import colors
 from reportlab.lib.units import cm
 
 def generer_guide():
-    # Création du document
-    pdf_filename = "Guide_Utilisation_BITHACOM.pdf"
+    pdf_filename = "Guide_SHOP_BITHACOM.pdf"
     doc = SimpleDocTemplate(pdf_filename, pagesize=A4, rightMargin=2*cm, leftMargin=2*cm, topMargin=2*cm, bottomMargin=2*cm)
     
-    # Styles
     styles = getSampleStyleSheet()
-    title_style = ParagraphStyle('TitleStyle', parent=styles['Heading1'], fontSize=24, textColor=HexColor('#1e3a8a'), spaceAfter=20, alignment=1)
+    
+    # Styles personnalisés
+    title_style = ParagraphStyle('TitleStyle', parent=styles['Heading1'], fontSize=26, textColor=HexColor('#1e3a8a'), spaceAfter=10, alignment=1)
     subtitle_style = ParagraphStyle('SubtitleStyle', parent=styles['Heading2'], fontSize=14, textColor=HexColor('#64748b'), spaceAfter=30, alignment=1)
     h2_style = ParagraphStyle('H2Style', parent=styles['Heading2'], fontSize=16, textColor=HexColor('#3b82f6'), spaceBefore=20, spaceAfter=10)
     body_style = ParagraphStyle('BodyStyle', parent=styles['Normal'], fontSize=11, leading=16, spaceAfter=8)
     code_style = ParagraphStyle('CodeStyle', parent=styles['Normal'], fontSize=11, fontName='Courier', textColor=HexColor('#ef4444'), backColor=HexColor('#f1f5f9'), borderPadding=5)
     
-    # Contenu
     elements = []
     
     # En-tête
@@ -65,7 +64,6 @@ def generer_guide():
     elements.append(Spacer(1, 40))
     elements.append(Paragraph("© 2026 SHOP BITHACOM - Tous droits réservés", ParagraphStyle('Footer', parent=body_style, fontSize=9, textColor=HexColor('#94a3b8'), alignment=1)))
     
-    # Génération
     doc.build(elements)
     print(f"✅ PDF généré avec succès : {pdf_filename}")
 
