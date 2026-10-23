@@ -5,7 +5,7 @@
         grid.innerHTML = "";
         
         if (products.length === 0) {
-            grid.innerHTML = "<p style='text-align:center; grid-column: 1/-1;'>Aucun produit pour le moment.</p>";
+            grid.innerHTML = "<div style='text-align:center; grid-column: 1/-1; padding: 40px;'><h3 style='color:#1e3a8a;'>Aucun produit disponible pour le moment.</h3><p style='color:#666; margin-top:10px;'>Revenez bientôt !</p></div>";
             return;
         }
 
@@ -13,7 +13,7 @@
             const priceDisplay = p.devise === 'USD' ? `$ ${p.prix}` : `${p.prix} FC`;
             grid.innerHTML += `
                 <div class="product-card">
-                    <img src="${p.image_url}" alt="${p.nom}">
+                    <img src="${p.image_url}" alt="${p.nom}" loading="lazy">
                     <div class="product-info">
                         <h3>${p.nom}</h3>
                         <p class="desc">${p.description}</p>
@@ -34,4 +34,7 @@
             });
         });
     })
-    .catch(err => console.log("Erreur:", err));
+    .catch(err => {
+        document.querySelector('.products-grid').innerHTML = "<p style='text-align:center; grid-column: 1/-1; color:red;'>Erreur de chargement des produits.</p>";
+        console.log("Erreur:", err);
+    });

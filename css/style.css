@@ -335,3 +335,51 @@ footer p { margin: 6px 0; }
     0% { transform: translateX(0); }
     100% { transform: translateX(-50%); }
 }
+
+/* ===== AMÉLIORATION CARTES PRODUITS (E-COMMERCE PRO) ===== */
+.product-card {
+    border: 1px solid #f1f5f9;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+.product-card:hover {
+    box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+}
+.product-card img {
+    height: 220px;
+    transition: transform 0.4s ease;
+}
+.product-card:hover img {
+    transform: scale(1.05);
+}
+.product-info {
+    padding: 20px;
+}
+.product-info h3 {
+    font-size: 18px;
+    margin-bottom: 8px;
+    color: #0f172a;
+}
+.product-info .desc {
+    color: #64748b;
+    font-size: 13px;
+    line-height: 1.5;
+}
+.product-info .price {
+    color: #f59e0b;
+    font-size: 22px;
+    font-weight: 800;
+    margin: 12px 0;
+}
+.product-info .btn-buy {
+    padding: 12px;
+    font-size: 15px;
+    border-radius: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.product-info .btn-buy:hover {
+    background: #1e3a8a;
+    color: white;
+    transform: translateY(-2px);
+}
