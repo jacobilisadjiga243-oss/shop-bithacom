@@ -20,13 +20,11 @@
     <h1 class="page-title">Nos Produits</h1>
     <p class="page-subtitle">Sélectionnez vos articles et commandez via WhatsApp</p>
 
-    <!-- BARRE DE RECHERCHE -->
     <div class="search-bar">
-        <input type="text" id="search-input" placeholder="Rechercher un produit (ex: iPhone)..." onkeyup="rechercherProduits()">
+        <input type="text" id="search-input" placeholder="Rechercher un produit..." onkeyup="rechercherProduits()">
         <button>Chercher</button>
     </div>
 
-    <!-- FILTRES -->
     <div class="filters">
         <button class="active" onclick="filterProducts('all', this)">Tous</button>
         <button onclick="filterProducts('nouveaute', this)">Nouveautés</button>
@@ -34,13 +32,36 @@
         <button onclick="filterProducts('best-seller', this)">Meilleures ventes</button>
     </div>
 
-    <!-- GRILLE PRODUITS -->
     <div class="products-grid" id="products-container"></div>
 
     <!-- PANIER FLOTTANT -->
-    <div class="cart-float" onclick="commanderPanier()">
+    <div class="cart-float" onclick="ouvrirPanier()">
         🛒
         <span class="cart-count" id="cart-count">0</span>
+    </div>
+
+    <!-- MODAL PANIER -->
+    <div id="modal-panier" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:2000; justify-content:center; align-items:center;">
+        <div style="background:white; max-width:500px; width:90%; border-radius:15px; padding:30px; max-height:80vh; overflow-y:auto;">
+            <h2 style="color:#1e3a8a; margin-bottom:20px;">🛒 Votre Panier</h2>
+            <div id="panier-liste" style="margin-bottom:20px;"></div>
+            
+            <div style="border-top:2px solid #e2e8f0; padding-top:20px; margin-bottom:20px;">
+                <label style="font-weight:bold; color:#1e3a8a; display:block; margin-bottom:10px;">🚚 Zone de livraison :</label>
+                <select id="zone-livraison" style="width:100%; padding:12px; border:2px solid #cbd5e1; border-radius:8px; font-size:15px;">
+                    <option value="0">Retrait en magasin (Gratuit)</option>
+                    <option value="5000">Kinshasa Centre (5 000 FC)</option>
+                    <option value="10000">Kinshasa Périphérie (10 000 FC)</option>
+                    <option value="15000">Lubumbashi (15 000 FC)</option>
+                    <option value="20000">Autres provinces (20 000 FC)</option>
+                </select>
+            </div>
+
+            <div style="display:flex; gap:10px;">
+                <button onclick="fermerPanier()" style="flex:1; padding:15px; background:#e2e8f0; color:#1e3a8a; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">Fermer</button>
+                <button onclick="commanderPanier()" style="flex:2; padding:15px; background:#25d366; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">✅ Commander sur WhatsApp</button>
+            </div>
+        </div>
     </div>
 
     <footer class="footer-pro">
@@ -52,7 +73,6 @@
         let filteredProducts = [];
         let panier = JSON.parse(localStorage.getItem('panier_bitha')) || [];
 
-        // Charger les produits
         fetch('/api')
             .then(res => res.json())
             .then(data => {
@@ -62,7 +82,6 @@
                 updateCartCount();
             });
 
-        // Afficher les produits
         function renderProducts(products) {
             const container = document.getElementById('products-container');
             container.innerHTML = "";
@@ -86,34 +105,18 @@
             });
         }
 
-        // Filtrer par catégorie
         function filterProducts(category, btn) {
             document.querySelectorAll('.filters button').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            
-            if(category === 'all') {
-                filteredProducts = allProducts;
-            } else {
-                filteredProducts = allProducts.filter(p => p.categorie === category);
-            }
+            filteredProducts = category === 'all' ? allProducts : allProducts.filter(p => p.categorie === category);
             renderProducts(filteredProducts);
         }
 
-        // Rechercher un produit en temps réel
         function rechercherProduits() {
             const searchTerm = document.getElementById('search-input').value.toLowerCase();
-            const results = allProducts.filter(p => 
-                p.nom.toLowerCase().includes(searchTerm) || 
-                p.description.toLowerCase().includes(searchTerm)
-            );
-            renderProducts(results);
-            
-            // Réinitialiser les filtres actifs
-            document.querySelectorAll('.filters button').forEach(b => b.classList.remove('active'));
-            document.querySelector('.filters button').classList.add('active');
+            renderProducts(allProducts.filter(p => p.nom.toLowerCase().includes(searchTerm) || p.description.toLowerCase().includes(searchTerm)));
         }
 
-        // Panier
         function ajouterAuPanier(id, nom, prix) {
             panier.push({ id, nom, prix });
             localStorage.setItem('panier_bitha', JSON.stringify(panier));
@@ -122,29 +125,60 @@
         }
 
         function updateCartCount() {
-    const cart = document.querySelector('.cart-float');
-    if(cart) {
-        cart.classList.add('bounce');
-        setTimeout(() => cart.classList.remove('bounce'), 300);
-    }
+            const cart = document.querySelector('.cart-float');
             document.getElementById('cart-count').innerText = panier.length;
+            if(cart) {
+                cart.classList.add('bounce');
+                setTimeout(() => cart.classList.remove('bounce'), 300);
+            }
         }
 
-        function commanderPanier() {
+        function ouvrirPanier() {
             if(panier.length === 0) {
                 alert("Votre panier est vide.");
                 return;
             }
+            const modal = document.getElementById('modal-panier');
+            modal.style.display = 'flex';
+            
+            const liste = document.getElementById('panier-liste');
+            liste.innerHTML = "";
+            panier.forEach((item, index) => {
+                liste.innerHTML += `
+                    <div style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #f1f5f9;">
+                        <span><b>${index+1}.</b> ${item.nom}</span>
+                        <span style="color:#f59e0b; font-weight:bold;">${item.prix}</span>
+                    </div>
+                `;
+            });
+        }
+
+        function fermerPanier() {
+            document.getElementById('modal-panier').style.display = 'none';
+        }
+
+        function commanderPanier() {
+            if(panier.length === 0) return;
+            
+            const zoneSelect = document.getElementById('zone-livraison');
+            const fraisLivraison = zoneSelect.value;
+            const zoneTexte = zoneSelect.options[zoneSelect.selectedIndex].text;
+
             let message = "Bonjour SHOP BITHACOM, je souhaite commander :%0A";
             panier.forEach((item, index) => {
                 message += `${index + 1}. ${item.nom} (${item.prix})%0A`;
             });
+            message += `%0A🚚 Livraison : ${zoneTexte}`;
+            if(fraisLivraison !== "0") {
+                message += ` (${fraisLivraison} FC)`;
+            }
+
             window.open(`https://wa.me/243819770888?text=${message}`, "_blank");
             panier = [];
             localStorage.setItem('panier_bitha', JSON.stringify(panier));
             updateCartCount();
+            fermerPanier();
         }
     </script>
 </body>
 </html>
-
